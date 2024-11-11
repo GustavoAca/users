@@ -1,0 +1,18 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  application:
+    name: users
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/minha_base
+    username: usuario
+    password: senha
+    driver-class-name: org.postgresql.Driver
+  flyway:
+    locations: classpath:db/migration
+
+server:
+  port: 8080
