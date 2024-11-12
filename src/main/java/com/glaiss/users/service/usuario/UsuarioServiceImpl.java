@@ -13,4 +13,5 @@ public class UsuarioServiceImpl extends BaseServiceImpl<Usuario, UUID, UsuarioRe
     protected UsuarioServiceImpl(UsuarioRepositoy repo) {
         super(repo);
     }
+
 }

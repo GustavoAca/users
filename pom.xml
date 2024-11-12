@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.glaiss</groupId>
 	<artifactId>users</artifactId>
-	<version>1.0.1</version>
+	<version>1.0.0</version>
 	<name>users</name>
 	<description>Projeto de gerenciamento de usuario</description>
 	<url/>
@@ -30,7 +30,6 @@
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
-
 		<dependency>
 			<groupId>com.glaiss</groupId>
 			<artifactId>core</artifactId>
@@ -38,7 +37,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.flywaydb</groupId>
-			<artifactId>flyway-core</artifactId>
+			<artifactId>flyway-database-postgresql</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -71,6 +70,7 @@
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-config-server</artifactId>
+			<version>4.1.3</version>
 		</dependency>
 	</dependencies>
 
