@@ -1,7 +1,7 @@
-package com.glaiss.users.repository;
+package com.glaiss.users.domain.repository;
 
-import com.glaiss.core.repository.BaseRepository;
-import com.glaiss.users.model.Local;
+import com.glaiss.core.domain.repository.BaseRepository;
+import com.glaiss.users.domain.model.Local;
 import org.springframework.stereotype.Repository;
 
 import java.util.UUID;

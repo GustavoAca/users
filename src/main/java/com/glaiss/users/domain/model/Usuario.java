@@ -1,6 +1,6 @@
-package com.glaiss.users.model;
+package com.glaiss.users.domain.model;
 
-import com.glaiss.core.model.EntityAbstract;
+import com.glaiss.core.domain.model.EntityAbstract;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,18 +15,13 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-@Table(name = "locais")
+@Table(name = "usuarios")
 @Entity
-public class Local extends EntityAbstract {
+public class Usuario extends EntityAbstract {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String nome;
-    private String endereco;
-    private String cep;
-    private String logradouro;
-    private String bairro;
-    private String numero;
-    private String estado;
+    private String username;
+    private String password;
 }

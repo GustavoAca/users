@@ -1,8 +1,8 @@
-package com.glaiss.users.service.local;
+package com.glaiss.users.domain.service.local;
 
-import com.glaiss.core.service.BaseServiceImpl;
-import com.glaiss.users.model.Local;
-import com.glaiss.users.repository.LocalRepository;
+import com.glaiss.core.domain.service.BaseServiceImpl;
+import com.glaiss.users.domain.model.Local;
+import com.glaiss.users.domain.repository.LocalRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
