@@ -4,6 +4,7 @@ CREATE TABLE USUARIOS (
 	ID                   UUID                       NOT NULL,
 	USERNAME             VARCHAR(250)               NOT NULL,
 	PASSWORD             VARCHAR(250)               NOT NULL,
+	PRIVILEGIO             VARCHAR(30)                NOT NULL,
 	CREATED_DATE         timestamp with time zone   NULL,
 	MODIFIED_DATE        timestamp with time zone   NULL,
 	CREATED_BY           VARCHAR(100)               NULL,
