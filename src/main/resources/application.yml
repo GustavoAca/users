@@ -19,7 +19,7 @@ spring:
     schemas: att_user
 
 server:
-  port: 8190
+  port: ${PORT:8190}
   servlet:
     context-path: /users
 
