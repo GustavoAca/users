@@ -4,7 +4,7 @@ import com.glaiss.core.domain.service.BaseServiceImpl;
 import com.glaiss.core.exception.RegistroNaoEncontradoException;
 import com.glaiss.users.domain.model.Local;
 import com.glaiss.users.domain.model.dto.LocalDto;
-import com.glaiss.users.domain.model.mapper.LocalMapper;
+import com.glaiss.users.domain.mapper.LocalMapper;
 import com.glaiss.users.domain.repository.LocalRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -24,12 +24,12 @@ public class LocalServieImpl extends BaseServiceImpl<Local, UUID, LocalRepositor
     }
 
     public LocalDto salvar(LocalDto localDto){
-        return localMapper.toDto(super.salvar(localMapper.toEntity(localDto)));
+        return localMapper.toDto(salvar(localMapper.toEntity(localDto)));
     }
 
     @Override
     public Page<LocalDto> listarPaginaDto(Pageable pageable) {
-        var locaisPage = super.listarPagina(pageable);
+        var locaisPage = listarPagina(pageable);
         var locais = locaisPage.getContent().stream()
                 .map(localMapper::toDto).toList();
         return new PageImpl<>(locais, pageable, locaisPage.getTotalElements());

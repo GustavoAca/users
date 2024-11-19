@@ -1,8 +1,10 @@
-package com.glaiss.users.domain.model.mapper;
+package com.glaiss.users.domain.mapper;
 
 import com.glaiss.users.domain.model.Local;
 import com.glaiss.users.domain.model.dto.LocalDto;
+import org.springframework.stereotype.Component;
 
+@Component
 public class LocalMapper {
 
     public LocalDto toDto(Local local){
@@ -15,6 +17,8 @@ public class LocalMapper {
                 .bairro(local.getBairro())
                 .numero(local.getNumero())
                 .estado(local.getEstado())
+                .createdBy(local.getCreatedBy())
+                .createdDate(local.getCreatedDate())
                 .build();
     }
 
@@ -28,6 +32,10 @@ public class LocalMapper {
                 .bairro(dto.getBairro())
                 .numero(dto.getNumero())
                 .estado(dto.getEstado())
+                .createdBy(dto.getCreatedBy())
+                .createdDate(dto.getCreatedDate())
+                .modifiedBy(dto.getModifiedBy())
+                .modifiedDate(dto.getModifiedDate())
                 .build();
     }
 }

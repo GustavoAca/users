@@ -46,9 +46,3 @@ jwt:
 
   private:
     key: classpath:private.key
-
-security:
-  oauth2:
-  resource:
-  jwk:
-  key-set-uri:  http://localhost:8081/sso-auth-server/.well-known/jwks.json

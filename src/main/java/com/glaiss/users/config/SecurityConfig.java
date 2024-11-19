@@ -1,6 +1,7 @@
 package com.glaiss.users.config;
 
 import com.glaiss.core.security.Privilegio;
+import com.glaiss.core.security.PrivilegioFactory;
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
@@ -60,16 +61,8 @@ public class SecurityConfig {
 
     private JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
-        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwt -> {
-            Collection<GrantedAuthority> authorities = new ArrayList<>();
-            String scope = jwt.getClaimAsString("scope");
-
-            if (scope != null) {
-                Privilegio.getHierarquia(Privilegio.valueOf(scope))
-                        .forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));
-            }
-            return authorities;
-        });
+        jwtAuthenticationConverter
+                .setJwtGrantedAuthoritiesConverter(jwt -> new ArrayList<>(PrivilegioFactory.getHierarquia()));
         return jwtAuthenticationConverter;
     }
 

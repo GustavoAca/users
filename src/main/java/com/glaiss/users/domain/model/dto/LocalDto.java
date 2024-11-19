@@ -1,5 +1,6 @@
 package com.glaiss.users.domain.model.dto;
 
+import com.glaiss.core.domain.model.dto.EntityAbstractDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class LocalDto {
+public class LocalDto extends EntityAbstractDto {
 
     private UUID id;
     private String nome;
@@ -24,6 +25,4 @@ public class LocalDto {
     private String bairro;
     private String numero;
     private String estado;
-    private LocalDateTime modifiedDate;
-    private String modifiedBy;
 }

@@ -38,7 +38,7 @@ public class LocalController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<LocalDto> listar(@PathVariable UUID uuid) {
+    public ResponseEntity<LocalDto> buscarPorId(@PathVariable UUID uuid) {
         return ResponseEntity.ok(localService.buscarPorIdDto(uuid));
     }
 }
