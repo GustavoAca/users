@@ -65,12 +65,12 @@ jobs:
 
       - name: Build imagem docker
         run: |
-          docker build . --file Dockerfile --tag listadecompra:${{ env.PROJECT_VERSION }}
+          docker build . --file Dockerfile --tag users:${{ env.PROJECT_VERSION }}
 
       - name: Deploy image
         run: |
-          docker tag listadecompra:${{ env.PROJECT_VERSION }} gacacio/listadecompra:${{ env.PROJECT_VERSION }}
-          docker push gacacio/listadecompra:${{ env.PROJECT_VERSION }}
+          docker tag users:${{ env.PROJECT_VERSION }} gacacio/users:${{ env.PROJECT_VERSION }}
+          docker push gacacio/users:${{ env.PROJECT_VERSION }}
 
   incrementar-versao:
     runs-on: ubuntu-latest
@@ -92,15 +92,8 @@ jobs:
       - name: Increment version in pom.xml
         id: increment_version
         run: |
-          current_version=$(xmllint --xpath "//*[local-name()='version']/text()" pom.xml | head -n 1)
-          IFS='.' read -r -a version_parts <<< "$current_version"
-          major=${version_parts[0]}
-          minor=${version_parts[1]}
-          patch=${version_parts[2]}
-          new_minor=$((minor + 1))
-          new_version="$major.$new_minor.$patch"
-          echo "new_version=$new_version" >> $GITHUB_ENV
-          mvn versions:set -DnewVersion=$new_version
+          chmod +x ./increment_version.sh
+          ./increment_version.sh
 
       - name: Commit and push version increment
         env:
@@ -110,4 +103,4 @@ jobs:
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add pom.xml
           git commit -m "Subindo versão para ${{ env.new_version }}"
-          git push
+          git push origin main
