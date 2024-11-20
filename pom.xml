@@ -29,17 +29,17 @@
 	<properties>
 		<java.version>17</java.version>
 	</properties>
-	<distributionManagement>
+	<repositories>
 		<repository>
 			<id>github</id>
 			<url>https://maven.pkg.github.com/GustavoAca/core</url>
 		</repository>
-	</distributionManagement>
+	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>com.glaiss</groupId>
 			<artifactId>core</artifactId>
-			<version>0.1.0-SNAPSHOT</version>
+			<version>0.1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.flywaydb</groupId>
