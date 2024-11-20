@@ -28,22 +28,6 @@ jobs:
       - name: Verificar dependências
         run: mvn dependency:resolve
 
-  testar-projeto:
-    runs-on: ubuntu-latest
-    needs: criar-projeto
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'adopt'
-          java-version: '17'
-
-      - name: Run tests
-        run: mvn test
-
   deploy-imagem-docker-hub:
     runs-on: ubuntu-latest
     needs: testar-projeto
@@ -57,6 +41,11 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '17'
+
+      - name: Configurar Maven
+        run: |
+          mkdir -p ~/.m2
+          echo "<settings><servers><server><id>github</id><username>${{ secrets.USERNAME }}</username><password>${{ secrets.GH_TOKEN }}</password></server></servers></settings>" > ~/.m2/settings.xml
 
       - name: Verificar dependências e package
         run: mvn clean install -DskipTests
