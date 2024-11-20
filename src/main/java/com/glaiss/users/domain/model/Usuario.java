@@ -1,12 +1,15 @@
 package com.glaiss.users.domain.model;
 
 import com.glaiss.core.domain.model.EntityAbstract;
+import com.glaiss.core.security.Privilegio;
+import com.glaiss.users.controller.dto.LoginRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.UUID;
 
@@ -24,4 +27,9 @@ public class Usuario extends EntityAbstract {
     private UUID id;
     private String username;
     private String password;
-}
+    @Enumerated(EnumType.STRING)
+    private Privilegio privilegio;
+
+    public boolean isLoginCorretc(LoginRequest loginRequest, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        return bCryptPasswordEncoder.matches(loginRequest.password(), this.password);
+    }}

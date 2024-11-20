@@ -3,9 +3,9 @@ package com.glaiss.users.domain.service.usuario;
 
 import com.glaiss.core.domain.service.BaseServiceImpl;
 import com.glaiss.core.exception.RegistroJaCadastradoException;
-import com.glaiss.users.domain.repository.UsuarioRepositoy;
-import com.glaiss.users.domain.model.Usuario;
 import com.glaiss.users.controller.dto.CreateUserDto;
+import com.glaiss.users.domain.model.Usuario;
+import com.glaiss.users.domain.repository.UsuarioRepositoy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,16 +26,22 @@ public class UsuarioServiceImpl extends BaseServiceImpl<Usuario, UUID, UsuarioRe
     }
 
     @Override
+    public Optional<Usuario> findByUsername(String username) {
+        return repo.findByUsername(username);
+    }
+
+    @Override
     public void cadastrarUsuario(CreateUserDto createUserDto) {
         Optional<Usuario> usuarioEncontradoNoBanco = repo.findByUsername(createUserDto.username());
 
-        if(usuarioEncontradoNoBanco.isPresent()){
+        if (usuarioEncontradoNoBanco.isPresent()) {
             throw new RegistroJaCadastradoException(String.format("Usuario %s existente", createUserDto.username()));
         }
 
         super.salvar(Usuario.builder()
                 .username(createUserDto.username())
                 .password(bCryptPasswordEncoder.encode(createUserDto.password()))
+                .privilegio(createUserDto.privilegio())
                 .build());
     }
 }

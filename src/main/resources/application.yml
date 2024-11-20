@@ -19,7 +19,7 @@ spring:
     schemas: att_user
 
 server:
-  port: 8190
+  port: ${PORT:8190}
   servlet:
     context-path: /users
 
@@ -35,3 +35,14 @@ management:
     web:
       exposure:
         include: "*"
+
+jwt:
+  public:
+    key: |
+      -----BEGIN PUBLIC KEY-----
+      MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhocpCKsOQEoButV4V76t0S2Vdd6iMUiud/q5Qvt/MQb9JoXWnx/rlYhVsyr20jrIEgfTGU51oJaGZRovAVNuQLF0VlK/bUu9a4Ce5PRAEeWPdTFrFEdxTIBdG0gsbZlb/SotY6jW+zI+wJI3Yl5Lm9+tHx
+      LeCqCtLrXWCHngGnU9eLsEa1OR94aR9gcIuUJhu/QjSDbARjoNYv7FSnBFeXYqahcT3WGcos7M2RZh6SZnVlN7aZ+Ve1CVv5BCVJf7lwEpGEJjGtipx6XJoERO7jPhwie+dYmcpP4yTCvqGlTGPWyYPyi6QBZPznkcCKcqs2MPtXnNUm0PuLkyaMycvwIDAQAB
+      -----END PUBLIC KEY-----
+
+  private:
+    key: classpath:private.key
