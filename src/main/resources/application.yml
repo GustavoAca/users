@@ -4,7 +4,11 @@ spring:
   config:
     activate:
       on-profile: dev
-
+  cloud:
+    loadbalancer:
+      enabled: true
+      ribbon:
+        enabled: false
   datasource:
     url: jdbc:postgresql://localhost:5432/glaiss
     username: att_user
@@ -35,7 +39,12 @@ management:
     web:
       exposure:
         include: "*"
-
+  tracing:
+    enabled: true
+    exporter:
+      zipkin:
+        enabled: true
+        url: http://localhost:9411/api/v2/spans
 jwt:
   public:
     key: |
