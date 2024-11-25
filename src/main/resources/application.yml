@@ -10,18 +10,24 @@ spring:
       ribbon:
         enabled: false
   datasource:
-    url: jdbc:postgresql://localhost:5432/glaiss
-    username: att_user
-    password: user_ddl_SaintBier
+    url: jdbc:postgresql://localhost:5432/glaiss?currentSchema=public&stringtype=unspecified&applicationName=app&options=-c%20TimeZone=UTC
+    username: att_user_app
+    password: user_SaintBier
     driver-class-name: org.postgresql.Driver
-
   flyway:
     user: att_user
     password: user_ddl_SaintBier
     locations: classpath:db/migration
     table: FLYWAY_SCHEMA_HISTORY
     schemas: att_user
-
+  jackson:
+    time-zone: America/Sao_Paulo
+  jpa:
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+  timezone: America/Sao_Paulo
 server:
   port: ${PORT:8190}
   servlet:

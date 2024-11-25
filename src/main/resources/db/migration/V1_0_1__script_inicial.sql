@@ -1,5 +1,3 @@
-
-
 CREATE TABLE USUARIOS (
 	ID                   UUID                       NOT NULL,
 	USERNAME             VARCHAR(250)               NOT NULL,

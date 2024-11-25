@@ -1,11 +1,20 @@
 <configuration>
+    <timestampPattern>%d{yyyy-MM-dd HH:mm:ss.SSS, America/Sao_Paulo}</timestampPattern>
+    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %X{apiName} - %msg%n"/>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
     <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>localhost:5000</destination>
+        <destination>127.0.0.1:5000</destination>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
 
     </appender>
 
     <root level="info">
         <appender-ref ref="LOGSTASH"/>
+        <appender-ref ref="CONSOLE"/>
     </root>
 </configuration>
