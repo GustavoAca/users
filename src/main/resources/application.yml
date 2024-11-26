@@ -10,7 +10,7 @@ spring:
       ribbon:
         enabled: false
   datasource:
-    url: jdbc:postgresql://localhost:5432/glaiss?currentSchema=public&stringtype=unspecified&applicationName=app&options=-c%20TimeZone=UTC
+    url: jdbc:postgresql://localhost:5432/glaiss?TimeZone=UTC
     username: att_user
     password: user_ddl_SaintBier
     driver-class-name: org.postgresql.Driver
@@ -23,11 +23,11 @@ spring:
   jackson:
     time-zone: America/Sao_Paulo
   jpa:
+    enabled: true
     properties:
       hibernate:
         jdbc:
-          time_zone: UTC
-  timezone: America/Sao_Paulo
+          time_zone: America/Sao_Paulo
 server:
   port: ${PORT:8190}
   servlet:
