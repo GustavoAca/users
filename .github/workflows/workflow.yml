@@ -17,7 +17,12 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '17'
-      
+
+      - name: Configurar Maven
+        run: |
+          mkdir -p ~/.m2
+          echo "<settings><servers><server><id>github</id><username>${{ secrets.USERNAME }}</username><password>${{ secrets.GITHUB_TOKEN }}</password></server></servers></settings>" > ~/.m2/settings.xml
+
       - name: Build project
         run: mvn -B clean compile
 

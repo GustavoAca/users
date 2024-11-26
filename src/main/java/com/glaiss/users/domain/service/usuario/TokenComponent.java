@@ -6,7 +6,6 @@ import com.glaiss.users.controller.dto.CreateUserDto;
 import com.glaiss.users.controller.dto.LoginRequest;
 import com.glaiss.users.controller.dto.LoginResponse;
 import com.glaiss.users.domain.model.Usuario;
-import com.glaiss.users.domain.model.dto.LocalDto;
 import com.glaiss.users.domain.model.dto.UserSubjectDto;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -35,7 +34,7 @@ public class TokenComponent {
 
     public LoginResponse login(LoginRequest loginRequest) {
         Usuario user = usuarioService.findByUsername(loginRequest.username())
-                .orElseThrow(() -> new RegistroNaoEncontradoException(""));
+                .orElseThrow(() -> new RegistroNaoEncontradoException("Usuario não encontrado"));
 
         validar(user, loginRequest);
 
