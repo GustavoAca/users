@@ -21,8 +21,8 @@ jobs:
       - name: Configurar Maven
         run: |
           mkdir -p ~/.m2
-          echo "<settings><servers><server><id>github</id><username>${{ secrets.USERNAME }}</username><password>${{ secrets.GITHUB_TOKEN }}</password></server></servers></settings>" > ~/.m2/settings.xml
-      
+          sed "s|\${{ secrets.USERNAME }}|${{ secrets.USERNAME }}|g; s|\${{ secrets.GH_TOKEN }}|${{ secrets.GH_TOKEN }}|g" config/settings.xml > ~/.m2/settings.xml
+
       - name: Build project
         run: mvn -B clean compile
 
