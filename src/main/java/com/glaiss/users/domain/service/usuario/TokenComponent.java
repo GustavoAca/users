@@ -55,7 +55,7 @@ public class TokenComponent {
                         .toString())
                 .expiresAt(now.plusSeconds(EXPIRES_IN))
                 .issuedAt(now)
-                .claim("scope", user.getPrivilegio())
+                .claim("authorities", user.getPrivilegio())
                 .build();
     }
 
