@@ -1,10 +1,18 @@
 spring:
   application:
     name: USERS
+    version: @project.version@
   config:
     activate:
       on-profile: dev
   cloud:
+    discovery:
+      enabled: true
+      eureka:
+        instance:
+          hostname: localhost
+    client:
+      hostname: localhost
     loadbalancer:
       enabled: true
       ribbon:
@@ -28,15 +36,15 @@ spring:
       hibernate:
         jdbc:
           time_zone: America/Sao_Paulo
+  security:
+    enabled: true
 server:
   port: ${PORT:8190}
-  servlet:
-    context-path: /users
 
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/discovery/eureka
+      defaultZone: http://localhost:8761/eureka
     fetch-registry: true
     register-with-eureka: true
 
@@ -45,6 +53,7 @@ management:
     web:
       exposure:
         include: "*"
+
   tracing:
     enabled: true
     exporter:
@@ -61,3 +70,8 @@ jwt:
 
   private:
     key: classpath:private.key
+
+glaiss:
+  services:
+    gateway:
+      url: http://localhost:8092

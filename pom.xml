@@ -40,7 +40,7 @@
 		<dependency>
 			<groupId>com.glaiss</groupId>
 			<artifactId>core</artifactId>
-			<version>0.3.0</version>
+			<version>0.4.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.flywaydb</groupId>
@@ -150,6 +150,14 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+					<addResources>
+						<resource>
+							<directory>src/main/resources</directory>
+							<includes>
+								<include>**/*</include>
+							</includes>
+						</resource>
+					</addResources>
 				</configuration>
 			</plugin>
 		</plugins>

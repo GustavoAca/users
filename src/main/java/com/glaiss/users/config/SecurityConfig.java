@@ -43,6 +43,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/usuarios/**").hasAuthority(Privilegio.ROLE_ADMIN.name())
                         .requestMatchers(HttpMethod.POST, "/usuarios/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/locais").hasAuthority(Privilegio.ROLE_FREE.name())
                         .anyRequest().authenticated())
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
