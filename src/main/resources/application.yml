@@ -37,7 +37,7 @@ spring:
         jdbc:
           time_zone: America/Sao_Paulo
   security:
-    enabled: false
+    enabled: true
 server:
   port: ${PORT:8190}
 
@@ -70,3 +70,8 @@ jwt:
 
   private:
     key: classpath:private.key
+
+glaiss:
+  services:
+    gateway:
+      url: http://localhost:8092

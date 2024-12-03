@@ -7,6 +7,7 @@ import com.glaiss.users.controller.dto.CreateUserDto;
 import com.glaiss.users.domain.model.Usuario;
 import com.glaiss.users.domain.repository.UsuarioRepositoy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -15,10 +16,13 @@ import java.util.UUID;
 @Service
 public class UsuarioServiceImpl extends BaseServiceImpl<Usuario, UUID, UsuarioRepositoy> implements UsuarioService {
 
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    protected UsuarioServiceImpl(UsuarioRepositoy repo) {
+    protected UsuarioServiceImpl(UsuarioRepositoy repo,
+                                 BCryptPasswordEncoder bCryptPasswordEncoder) {
         super(repo);
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @Override
@@ -36,7 +40,7 @@ public class UsuarioServiceImpl extends BaseServiceImpl<Usuario, UUID, UsuarioRe
 
         super.salvar(Usuario.builder()
                 .username(createUserDto.username())
-                .password(createUserDto.password())
+                .password(bCryptPasswordEncoder.encode(createUserDto.password()))
                 .privilegio(createUserDto.privilegio())
                 .build());
     }
