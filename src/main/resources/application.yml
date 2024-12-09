@@ -38,6 +38,12 @@ spring:
           time_zone: America/Sao_Paulo
   security:
     enabled: true
+  cache:
+    type: redis
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
 server:
   port: ${PORT:8190}
 
@@ -75,3 +81,5 @@ glaiss:
   services:
     gateway:
       url: http://localhost:8092
+    list:
+      url: http://localhost:8090
