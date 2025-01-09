@@ -40,10 +40,11 @@ spring:
     enabled: true
   cache:
     type: redis
-  data:
     redis:
-      host: ${REDIS_HOST:localhost}
-      port: ${REDIS_PORT:6379}
+      time-to-live: 3600s
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
 server:
   port: ${PORT:8190}
 

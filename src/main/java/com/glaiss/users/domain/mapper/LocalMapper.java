@@ -19,6 +19,8 @@ public class LocalMapper {
                 .estado(local.getEstado())
                 .createdBy(local.getCreatedBy())
                 .createdDate(local.getCreatedDate())
+                .modifiedBy(local.getModifiedBy())
+                .modifiedDate(local.getModifiedDate())
                 .build();
     }
 

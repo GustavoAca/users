@@ -8,7 +8,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -25,25 +24,25 @@ public class LocalController {
     }
 
     @PostMapping
-    public ResponseEntity<LocalDto> cadastrar(@RequestBody LocalDto localDto) {
-        return ResponseEntity.ok(localService.salvar(localDto));
+    public LocalDto cadastrar(@RequestBody LocalDto localDto) {
+        return localService.salvar(localDto);
     }
 
     @CacheEvict(value = "Local", key = "#id")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> deletar(@PathVariable UUID id) {
-        return ResponseEntity.ok(localService.deletar(id));
+    public Boolean deletar(@PathVariable UUID id) {
+        return localService.deletar(id);
     }
 
     @GetMapping
     @Cacheable(value = "Local", key = "#pageable.pageNumber")
-    public ResponseEntity<Page<LocalDto>> listar(@PageableDefault(size = 20) Pageable pageable) {
-        return ResponseEntity.ok(localService.listarPaginaDto(pageable));
+    public Page<LocalDto> listar(@PageableDefault(size = 20) Pageable pageable) {
+        return localService.listarPaginaDto(pageable);
     }
 
     @GetMapping("/{id}")
     @Cacheable(value = "Local", key = "#id")
-    public ResponseEntity<LocalDto> buscarPorId(@PathVariable UUID id) {
-        return ResponseEntity.ok(localService.buscarPorIdDto(id));
+    public LocalDto buscarPorId(@PathVariable("id") UUID id) {
+        return localService.buscarPorIdDto(id);
     }
 }

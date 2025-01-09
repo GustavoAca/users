@@ -24,6 +24,8 @@ public class ListaCompraMapper {
                 .usuarioId(entity.getUsuarioId())
                 .createdBy(entity.getCreatedBy())
                 .createdDate(entity.getCreatedDate())
+                .modifiedBy(entity.getModifiedBy())
+                .modifiedDate(entity.getModifiedDate())
                 .build();
     }
 }

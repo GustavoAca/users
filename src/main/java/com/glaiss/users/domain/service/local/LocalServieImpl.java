@@ -1,13 +1,12 @@
 package com.glaiss.users.domain.service.local;
 
+import com.glaiss.core.domain.model.ResponsePage;
 import com.glaiss.core.domain.service.BaseServiceImpl;
 import com.glaiss.core.exception.RegistroNaoEncontradoException;
+import com.glaiss.users.domain.mapper.LocalMapper;
 import com.glaiss.users.domain.model.Local;
 import com.glaiss.users.domain.model.dto.LocalDto;
-import com.glaiss.users.domain.mapper.LocalMapper;
 import com.glaiss.users.domain.repository.LocalRepository;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -28,11 +27,11 @@ public class LocalServieImpl extends BaseServiceImpl<Local, UUID, LocalRepositor
     }
 
     @Override
-    public Page<LocalDto> listarPaginaDto(Pageable pageable) {
+    public ResponsePage<LocalDto> listarPaginaDto(Pageable pageable) {
         var locaisPage = listarPagina(pageable);
         var locais = locaisPage.getContent().stream()
                 .map(localMapper::toDto).toList();
-        return new PageImpl<>(locais, pageable, locaisPage.getTotalElements());
+        return new ResponsePage<>(locais, pageable.getPageNumber(), pageable.getPageSize(), locaisPage.getTotalElements());
     }
 
     @Override
