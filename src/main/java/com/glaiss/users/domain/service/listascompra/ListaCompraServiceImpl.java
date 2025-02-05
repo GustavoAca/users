@@ -64,6 +64,6 @@ public class ListaCompraServiceImpl extends BaseServiceImpl<ListaCompra, UUID, L
         ListaCompra listaCompra = buscarPorId(listaCompraDto.getId())
                 .orElseThrow(() -> new RegistroNaoEncontradoException(listaCompraDto.getId(), listaCompraDto.getClass().getName()));
         listaCompra.setValorTotal(listaCompra.getValorTotal());
-        return listaCompraMapper.toDto(listaCompra);
+        return listaCompraMapper.toDto(salvar(listaCompra));
     }
 }
