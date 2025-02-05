@@ -82,5 +82,5 @@ glaiss:
   services:
     gateway:
       url: http://localhost:8092
-    list:
+    lista:
       url: http://localhost:8090
