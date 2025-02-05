@@ -2,12 +2,10 @@ package com.glaiss.users.domain.model;
 
 import com.glaiss.core.domain.model.EntityAbstract;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Getter
@@ -25,4 +23,8 @@ public class ListaCompra extends EntityAbstract {
 
     @Column(name = "usuario_id")
     private UUID usuarioId;
+
+    @Column(name = "valor_total")
+    @Builder.Default
+    private BigDecimal valorTotal = BigDecimal.ZERO;
 }

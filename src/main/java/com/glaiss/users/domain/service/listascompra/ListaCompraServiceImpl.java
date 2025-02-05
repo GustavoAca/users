@@ -1,5 +1,6 @@
 package com.glaiss.users.domain.service.listascompra;
 
+import com.glaiss.core.domain.model.ResponsePage;
 import com.glaiss.core.domain.service.BaseServiceImpl;
 import com.glaiss.core.exception.RegistroNaoEncontradoException;
 import com.glaiss.core.utils.SecurityContextUtils;
@@ -10,8 +11,6 @@ import com.glaiss.users.domain.model.ListaCompra;
 import com.glaiss.users.domain.model.dto.ListaCompraDto;
 import com.glaiss.users.domain.repository.listascompra.ListaCompraRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -34,17 +33,19 @@ public class ListaCompraServiceImpl extends BaseServiceImpl<ListaCompra, UUID, L
     }
 
     @Override
-    public ListaCompraDto salvar(ListaCompraDto listaCompraDto) {
-        listaCompraDto.setUsuarioId(SecurityContextUtils.getId());
-        return listaCompraMapper.toDto(salvar(listaCompraMapper.toEntity(listaCompraDto)));
+    public ListaCompraDto salvar() {
+        return listaCompraMapper.toDto(salvar(listaCompraMapper
+                .toEntity(ListaCompraDto.builder()
+                        .usuarioId(SecurityContextUtils.getId())
+                        .build())));
     }
 
     @Override
-    public Page<ListaCompraDto> listarPaginaDto(Pageable pageable) {
-        var listaCompraPage = listarPagina(pageable);
+    public ResponsePage<ListaCompraDto> listarPaginaDto(Pageable pageable) {
+        ResponsePage<ListaCompra> listaCompraPage = repo.findByUsuarioId(SecurityContextUtils.getId(), pageable);
         var listaCompra = listaCompraPage.getContent().stream()
                 .map(listaCompraMapper::toDto).toList();
-        return new PageImpl<>(listaCompra, pageable, listaCompraPage.getTotalElements());
+        return new ResponsePage<>(listaCompra, pageable.getPageNumber(), pageable.getPageSize(), listaCompraPage.getTotalElements());
     }
 
     @Override
@@ -56,5 +57,13 @@ public class ListaCompraServiceImpl extends BaseServiceImpl<ListaCompra, UUID, L
     @Override
     public void removerItemLista(List<ItemListaDto> itensLista) {
         itensLista.forEach(i -> listaService.deletar(i.id()));
+    }
+
+    @Override
+    public ListaCompraDto atualizarValorTotal(ListaCompraDto listaCompraDto) {
+        ListaCompra listaCompra = buscarPorId(listaCompraDto.getId())
+                .orElseThrow(() -> new RegistroNaoEncontradoException(listaCompraDto.getId(), listaCompraDto.getClass().getName()));
+        listaCompra.setValorTotal(listaCompra.getValorTotal());
+        return listaCompraMapper.toDto(salvar(listaCompra));
     }
 }
