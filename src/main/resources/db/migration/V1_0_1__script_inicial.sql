@@ -2,7 +2,7 @@ CREATE TABLE USUARIOS (
 	ID                   UUID                       NOT NULL,
 	USERNAME             VARCHAR(250)               NOT NULL,
 	PASSWORD             VARCHAR(250)               NOT NULL,
-	PRIVILEGIO             VARCHAR(30)                NOT NULL,
+	PRIVILEGIO            VARCHAR(30)              NOT NULL,
 	CREATED_DATE         timestamp with time zone   NULL,
 	MODIFIED_DATE        timestamp with time zone   NULL,
 	CREATED_BY           VARCHAR(100)               NULL,
@@ -10,7 +10,7 @@ CREATE TABLE USUARIOS (
 	CONSTRAINT USERS_PK PRIMARY KEY ( ID )
  );
 
- CREATE table LOCAIS (
+ CREATE TABLE LOCAIS (
    ID                   UUID                       NOT NULL,
    NOME                 VARCHAR(250)               NOT NULL,
    ENDERECO             VARCHAR(250)               NOT NULL,
@@ -29,6 +29,7 @@ CREATE TABLE USUARIOS (
  CREATE TABLE LISTAS_COMPRA (
     ID                   UUID                       NOT NULL,
     USUARIO_ID           UUID                       NOT NULL,
+    VALOR_TOTAL          NUMERIC(10,2)              NOT NULL,
     CREATED_DATE         TIMESTAMP WITH TIME ZONE   NOT NULL,
     MODIFIED_DATE        TIMESTAMP WITH TIME ZONE   NOT NULL,
     CREATED_BY           VARCHAR(100)               NOT NULL,

@@ -52,4 +52,10 @@ public class ListaCompraController {
     public void removerItemLista(List<ItemListaDto> itensLista){
         listaCompraService.removerItemLista(itensLista);
     }
+
+    @PatchMapping("/atualizar-valor-total")
+    public ListaCompraDto atualizarValorTotal(ListaCompraDto listaCompraDto) {
+        return listaCompraService.atualizarValorTotal(listaCompraDto);
+
+    }
 }

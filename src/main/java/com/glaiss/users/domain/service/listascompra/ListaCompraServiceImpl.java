@@ -58,4 +58,12 @@ public class ListaCompraServiceImpl extends BaseServiceImpl<ListaCompra, UUID, L
     public void removerItemLista(List<ItemListaDto> itensLista) {
         itensLista.forEach(i -> listaService.deletar(i.id()));
     }
+
+    @Override
+    public ListaCompraDto atualizarValorTotal(ListaCompraDto listaCompraDto) {
+        ListaCompra listaCompra = buscarPorId(listaCompraDto.getId())
+                .orElseThrow(() -> new RegistroNaoEncontradoException(listaCompraDto.getId(), listaCompraDto.getClass().getName()));
+        listaCompra.setValorTotal(listaCompra.getValorTotal());
+        return listaCompraMapper.toDto(listaCompra);
+    }
 }

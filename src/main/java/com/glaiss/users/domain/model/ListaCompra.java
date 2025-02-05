@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Getter
@@ -25,4 +26,7 @@ public class ListaCompra extends EntityAbstract {
 
     @Column(name = "usuario_id")
     private UUID usuarioId;
+
+    @Column(name = "valor_total")
+    private BigDecimal valorTotal;
 }

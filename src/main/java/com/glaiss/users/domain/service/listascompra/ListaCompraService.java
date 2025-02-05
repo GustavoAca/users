@@ -19,4 +19,6 @@ public interface ListaCompraService extends BaseService<ListaCompra, UUID> {
     ListaCompraDto buscarPorIdDto(UUID id);
 
     void removerItemLista(List<ItemListaDto> itensLista);
+
+    ListaCompraDto atualizarValorTotal(ListaCompraDto listaCompraDto);
 }
