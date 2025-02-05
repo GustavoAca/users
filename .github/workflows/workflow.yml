@@ -13,10 +13,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Configurar chave privada
-        run: echo "${{ secrets.JWT_PRIVATE_KEY }}" > private_key.key
-
-      - name: Configurar chave privada
-        run: echo "JWT_PRIVATE_KEY=$(cat private_key.key)" >> $GITHUB_ENV
+        run: echo "${{ secrets.JWT_PRIVATE_KEY }}" > src/test/resources/private_key.key
 
       - name: Setup Java
         uses: actions/setup-java@v4
