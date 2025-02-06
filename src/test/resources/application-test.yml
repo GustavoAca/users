@@ -10,6 +10,14 @@ spring:
     driver-class-name: org.h2.Driver
     username: sa
     password: password
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+  h2:
+    console:
+      enabled: true
+
   flyway:
     enabled: false
   security:
