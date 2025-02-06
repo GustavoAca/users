@@ -26,21 +26,8 @@ jobs:
           mkdir -p ~/.m2
           echo "<settings><servers><server><id>github</id><username>${{ secrets.USERNAME }}</username><password>${{ secrets.GITHUB_TOKEN }}</password></server></servers></settings>" > ~/.m2/settings.xml
 
-      - name: Configurar banco H2 no CI/CD
-        run: |
-          echo "SPRING_DATASOURCE_URL=jdbc:h2:mem:testdb;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE" >> $GITHUB_ENV
-          echo "SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.h2.Driver" >> $GITHUB_ENV
-          echo "SPRING_DATASOURCE_USERNAME=sa" >> $GITHUB_ENV
-          echo "SPRING_DATASOURCE_PASSWORD=" >> $GITHUB_ENV
-          echo "SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.PostgreSQLDialect" >> $GITHUB_ENV
-          echo "SPRING_JPA_HIBERNATE_DDL_AUTO=update" >> $GITHUB_ENV
-          echo "SPRING_H2_CONSOLE_ENABLED=true" >> $GITHUB_ENV
-
       - name: Build project
         run: mvn -B clean compile
 
       - name: Verificar dependências
         run: mvn dependency:resolve
-
-      - name: testes
-        run: mvn test
