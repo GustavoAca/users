@@ -24,12 +24,13 @@ public class LocalController {
     }
 
     @PostMapping
+    @CacheEvict(value = "Local", allEntries = true)
     public LocalDto cadastrar(@RequestBody LocalDto localDto) {
         return localService.salvar(localDto);
     }
 
-    @CacheEvict(value = "Local", key = "#id")
     @DeleteMapping("/{id}")
+    @CacheEvict(value = "Local", allEntries = true)
     public Boolean deletar(@PathVariable UUID id) {
         return localService.deletar(id);
     }
