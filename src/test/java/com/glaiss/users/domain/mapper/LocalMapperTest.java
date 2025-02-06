@@ -1,7 +1,7 @@
 package com.glaiss.users.domain.mapper;
 
 import com.glaiss.users.MockFactory;
-import com.glaiss.users.UsersApplicationTests;
+import com.glaiss.users.UsersApplicationTest;
 import com.glaiss.users.domain.model.Local;
 import com.glaiss.users.domain.model.dto.LocalDto;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class LocalMapperTest extends UsersApplicationTests {
+class LocalMapperTest extends UsersApplicationTest {
     @Autowired
     private LocalMapper localMapper;
 
@@ -20,7 +20,7 @@ class LocalMapperTest extends UsersApplicationTests {
     private MockFactory mockFactory;
 
     @Nested
-    class Dado_uma_entidade extends UsersApplicationTests {
+    class Dado_uma_entidade extends UsersApplicationTest {
         private Local local;
 
         @BeforeEach
@@ -29,7 +29,7 @@ class LocalMapperTest extends UsersApplicationTests {
         }
 
         @Nested
-        class Quando_ser_convertido_para_dto extends UsersApplicationTests {
+        class Quando_ser_convertido_para_dto extends UsersApplicationTest {
             private LocalDto localDto;
 
             @BeforeEach
@@ -38,7 +38,7 @@ class LocalMapperTest extends UsersApplicationTests {
             }
 
             @Test
-            void Deve_ser_transformado_com_sucesso() {
+            void Entao_deve_ser_transformado_com_sucesso() {
                 assertNotNull(local.getId());
                 assertNotNull(local.getNome());
                 assertNotNull(local.getEndereco());
@@ -60,7 +60,7 @@ class LocalMapperTest extends UsersApplicationTests {
     }
 
     @Nested
-    class Dado_um_dto extends UsersApplicationTests {
+    class Dado_um_dto extends UsersApplicationTest {
         private LocalDto localDto;
 
         @BeforeEach
@@ -69,7 +69,7 @@ class LocalMapperTest extends UsersApplicationTests {
         }
 
         @Nested
-        class Quando_ser_convertido_para_entidade extends UsersApplicationTests {
+        class Quando_ser_convertido_para_entidade extends UsersApplicationTest {
             private Local local;
 
             @BeforeEach
@@ -78,7 +78,7 @@ class LocalMapperTest extends UsersApplicationTests {
             }
 
             @Test
-            void Deve_ser_transformado_com_sucesso() {
+            void Entao_deve_ser_transformado_com_sucesso() {
                 assertNotNull(local.getId());
                 assertNotNull(local.getNome());
                 assertNotNull(local.getEndereco());

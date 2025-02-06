@@ -28,6 +28,3 @@ jobs:
 
       - name: Build project
         run: mvn -B clean verify
-
-      - name: Verificar dependências
-        run: mvn dependency:resolve

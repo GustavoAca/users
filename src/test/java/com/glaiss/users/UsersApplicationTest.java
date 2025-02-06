@@ -14,14 +14,12 @@ import java.util.TimeZone;
 @NestedTestConfiguration(NestedTestConfiguration.EnclosingConfiguration.OVERRIDE)
 @ExtendWith(SpringExtension.class)
 @WithMockUser(username = "userId=c0a7b5f5-fc77-4afe-bf73-8213b3862bfb, username=galasdalas50@gmail.com",
-        authorities = {"ROLE_ADMIN"}
-)
+        authorities = {"ROLE_ADMIN"})
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-public abstract class UsersApplicationTests {
+public abstract class UsersApplicationTest {
 
     static {
         System.setProperty("spring.profiles.active", "test");
         TimeZone.setDefault(TimeZone.getTimeZone("America/Sao_Paulo"));
     }
-
 }

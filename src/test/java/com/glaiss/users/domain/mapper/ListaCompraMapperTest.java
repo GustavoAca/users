@@ -1,7 +1,7 @@
 package com.glaiss.users.domain.mapper;
 
 import com.glaiss.users.MockFactory;
-import com.glaiss.users.UsersApplicationTests;
+import com.glaiss.users.UsersApplicationTest;
 import com.glaiss.users.domain.model.ListaCompra;
 import com.glaiss.users.domain.model.dto.ListaCompraDto;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class ListaCompraMapperTest extends UsersApplicationTests {
+class ListaCompraMapperTest extends UsersApplicationTest {
 
     @Autowired
     private ListaCompraMapper listaCompraMapper;
@@ -21,7 +21,7 @@ class ListaCompraMapperTest extends UsersApplicationTests {
     private MockFactory mockFactory;
 
     @Nested
-    class Dado_uma_entidade extends UsersApplicationTests {
+    class Dado_uma_entidade extends UsersApplicationTest {
         private ListaCompra listaCompra;
 
         @BeforeEach
@@ -30,7 +30,7 @@ class ListaCompraMapperTest extends UsersApplicationTests {
         }
 
         @Nested
-        class Quando_ser_convertido_para_dto extends UsersApplicationTests {
+        class Quando_ser_convertido_para_dto extends UsersApplicationTest {
             private ListaCompraDto listaCompraDto;
 
             @BeforeEach
@@ -39,7 +39,7 @@ class ListaCompraMapperTest extends UsersApplicationTests {
             }
 
             @Test
-            void Deve_ser_transformado_com_sucesso() {
+            void Entao_deve_ser_transformado_com_sucesso() {
                 assertNotNull(listaCompraDto.getId());
                 assertNotNull(listaCompraDto.getUsuarioId());
                 assertNotNull(listaCompraDto.getValorTotal());
@@ -51,7 +51,7 @@ class ListaCompraMapperTest extends UsersApplicationTests {
     }
 
     @Nested
-    class Dado_um_dto extends UsersApplicationTests {
+    class Dado_um_dto extends UsersApplicationTest {
         private ListaCompraDto listaCompraDto;
 
         @BeforeEach
@@ -60,7 +60,7 @@ class ListaCompraMapperTest extends UsersApplicationTests {
         }
 
         @Nested
-        class Quando_ser_convertido_para_entidade extends UsersApplicationTests {
+        class Quando_ser_convertido_para_entidade extends UsersApplicationTest {
             private ListaCompra listaCompra;
 
             @BeforeEach
@@ -69,7 +69,7 @@ class ListaCompraMapperTest extends UsersApplicationTests {
             }
 
             @Test
-            void Deve_ser_transformado_com_sucesso() {
+            void Entao_deve_ser_transformado_com_sucesso() {
                 assertNotNull(listaCompra.getId());
                 assertNotNull(listaCompra.getUsuarioId());
                 assertNotNull(listaCompra.getValorTotal());
