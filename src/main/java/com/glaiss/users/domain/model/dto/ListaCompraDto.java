@@ -1,10 +1,7 @@
 package com.glaiss.users.domain.model.dto;
 
 import com.glaiss.core.domain.model.dto.EntityAbstractDto;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
@@ -19,5 +16,6 @@ public class ListaCompraDto extends EntityAbstractDto {
 
     private UUID id;
     private UUID usuarioId;
-    private BigDecimal valorTotal;
+    @Builder.Default
+    private BigDecimal valorTotal = BigDecimal.ZERO;
 }

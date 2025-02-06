@@ -12,6 +12,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Configurar chave privada
+        run: echo "${{ secrets.JWT_PRIVATE_KEY }}" > src/test/resources/private_key.key
+
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
