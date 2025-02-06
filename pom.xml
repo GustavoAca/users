@@ -183,22 +183,22 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
-                    <!--                    <addResources>-->
-                    <!--                        <resource>-->
-                    <!--                            <directory>src/main/resources</directory>-->
-                    <!--                            <includes>-->
-                    <!--                                <include>**/*</include>-->
-                    <!--                            </includes>-->
-                    <!--                        </resource>-->
-                    <!--                    </addResources>-->
-                </configuration>
+                <!--                <configuration>-->
+                <!--                    <excludes>-->
+                <!--                        <exclude>-->
+                <!--                            <groupId>org.projectlombok</groupId>-->
+                <!--                            <artifactId>lombok</artifactId>-->
+                <!--                        </exclude>-->
+                <!--                    </excludes>-->
+                <!--                    &lt;!&ndash;                    <addResources>&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                        <resource>&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                            <directory>src/main/resources</directory>&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                            <includes>&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                <include>**/*</include>&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                            </includes>&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                        </resource>&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                    </addResources>&ndash;&gt;-->
+                <!--                </configuration>-->
             </plugin>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
