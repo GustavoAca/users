@@ -190,14 +190,14 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
-                    <addResources>
-                        <resource>
-                            <directory>src/main/resources</directory>
-                            <includes>
-                                <include>**/*</include>
-                            </includes>
-                        </resource>
-                    </addResources>
+                    <!--                    <addResources>-->
+                    <!--                        <resource>-->
+                    <!--                            <directory>src/main/resources</directory>-->
+                    <!--                            <includes>-->
+                    <!--                                <include>**/*</include>-->
+                    <!--                            </includes>-->
+                    <!--                        </resource>-->
+                    <!--                    </addResources>-->
                 </configuration>
             </plugin>
             <plugin>
