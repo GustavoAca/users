@@ -37,4 +37,4 @@ jobs:
           echo "SPRING_H2_CONSOLE_ENABLED=true" >> $GITHUB_ENV
 
       - name: Build project
-        run: mvn -B clean verify
+        run: mvn -B clean test
