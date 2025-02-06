@@ -5,7 +5,6 @@ import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.NestedTestConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -19,7 +18,6 @@ import java.util.TimeZone;
         authorities = {"ROLE_ADMIN"})
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @WebAppConfiguration
-@ActiveProfiles("test") // Isso carrega application-test.yml automaticamente
 public abstract class UsersApplicationTest {
 
     static {
