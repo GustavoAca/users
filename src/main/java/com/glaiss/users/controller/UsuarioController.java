@@ -20,7 +20,7 @@ public class UsuarioController {
         this.tokenComponent = tokenComponent;
     }
 
-    @PostMapping
+    @PostMapping("/cadastrar")
     public void cadastrar(@RequestBody CreateUserDto createUserDto) {
         tokenComponent.cadastrarUsuario(createUserDto);
     }
