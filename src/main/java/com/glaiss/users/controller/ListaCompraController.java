@@ -48,7 +48,7 @@ public class ListaCompraController {
         return listaCompraService.deletar(id);
     }
 
-    @PatchMapping("/atualizar-valor-total")
+    @PutMapping("/atualizar-valor-total")
     @CacheEvict(value = "ListaCompra", allEntries = true)
     public ListaCompraDto atualizarValorTotal(@Valid @RequestBody ListaCompraDto listaCompraDto) {
         return listaCompraService.atualizarValorTotal(listaCompraDto);
