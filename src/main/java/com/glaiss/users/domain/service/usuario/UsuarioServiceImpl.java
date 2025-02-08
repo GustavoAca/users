@@ -6,6 +6,7 @@ import com.glaiss.core.exception.RegistroJaCadastradoException;
 import com.glaiss.users.controller.dto.CreateUserDto;
 import com.glaiss.users.domain.model.Usuario;
 import com.glaiss.users.domain.repository.UsuarioRepositoy;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.UUID;
 
+@Slf4j
 @Service
 public class UsuarioServiceImpl extends BaseServiceImpl<Usuario, UUID, UsuarioRepositoy> implements UsuarioService {
 
@@ -35,6 +37,7 @@ public class UsuarioServiceImpl extends BaseServiceImpl<Usuario, UUID, UsuarioRe
         Optional<Usuario> usuarioEncontradoNoBanco = repo.findByUsername(createUserDto.username());
 
         if (usuarioEncontradoNoBanco.isPresent()) {
+            log.error("Usuario existente {}", createUserDto.username());
             throw new RegistroJaCadastradoException(String.format("Usuario %s existente", createUserDto.username()));
         }
 
