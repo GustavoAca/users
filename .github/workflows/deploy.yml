@@ -39,7 +39,7 @@ jobs:
       - name: Restaurar cache do Maven
         uses: actions/cache@v2
         with:
-          path: ~/.m2/repository
+          path: ~/.m2
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
