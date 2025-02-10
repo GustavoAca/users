@@ -31,3 +31,6 @@ jobs:
 
       - name: Verificar dependências
         run: mvn dependency:resolve
+
+      - name: testes
+        run: mvn -B clean test
