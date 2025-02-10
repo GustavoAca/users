@@ -11,6 +11,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Configurar chave privada
+        run: echo "${{ secrets.JWT_PRIVATE_KEY }}" > src/main/resources/private.key
+
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
@@ -27,6 +30,9 @@ jobs:
 
       - name: Verificar dependências
         run: mvn dependency:resolve
+
+      - name: Executar testes
+        run: mvn -B clean test
 
   deploy-imagem-docker-hub:
     runs-on: ubuntu-latest
