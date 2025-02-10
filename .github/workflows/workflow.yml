@@ -15,8 +15,7 @@ jobs:
       - name: Configurar chave privada
         run:
           |
-          cd $GITHUB_WORKSPACE
-          echo "${{ secrets.JWT_PRIVATE_KEY }}" > src/java/resources/private_key.key
+          echo "${{ secrets.JWT_PRIVATE_KEY }}" > $GITHUB_WORKSPACE/src/java/resources/private_key.key
 
       - name: Setup Java
         uses: actions/setup-java@v4
