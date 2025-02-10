@@ -2,9 +2,6 @@ spring:
   application:
     name: USERS
     version: @project.version@
-  config:
-    activate:
-      on-profile: dev
   cloud:
     discovery:
       enabled: true
@@ -17,17 +14,6 @@ spring:
       enabled: true
       ribbon:
         enabled: false
-  datasource:
-    url: jdbc:postgresql://localhost:5432/glaiss?TimeZone=UTC
-    username: att_user
-    password: user_ddl_SaintBier
-    driver-class-name: org.postgresql.Driver
-  flyway:
-    user: att_user
-    password: user_ddl_SaintBier
-    locations: classpath:db/migration
-    table: FLYWAY_SCHEMA_HISTORY
-    schemas: att_user
   jackson:
     time-zone: America/Sao_Paulo
   jpa:
@@ -43,10 +29,17 @@ spring:
     redis:
       time-to-live: 3600s
   redis:
-    host: ${REDIS_HOST:localhost}
-    port: ${REDIS_PORT:6379}
+    host: localhost
+    port: 6379
+  flyway:
+    user: att_user
+    password: user_ddl_SaintBier
+    locations: classpath:db/migration
+    table: FLYWAY_SCHEMA_HISTORY
+    schemas: att_user
+
 server:
-  port: ${PORT:8190}
+  port: 8190
 
 eureka:
   client:
@@ -67,6 +60,7 @@ management:
       zipkin:
         enabled: true
         url: http://localhost:9411/api/v2/spans
+
 jwt:
   public:
     key: |
@@ -78,9 +72,49 @@ jwt:
   private:
     key: classpath:private.key
 
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    url: jdbc:postgresql://localhost:5432/glaiss?TimeZone=UTC
+    username: att_user
+    password: user_ddl_SaintBier
+    driver-class-name: org.postgresql.Driver
+
 glaiss:
   services:
     gateway:
       url: http://localhost:8092
     lista:
       url: http://localhost:8090
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    url: ${DB_URL}
+    username: ${USER_DB}
+    password: ${PASSWORD_DB}
+    driver-class-name: org.postgresql.Driver
+  flyway:
+    user: ${USER_DB}
+    password: ${PASSWORD_DB}
+  eureka:
+    client:
+      service-url:
+        defaultZone: ${URL_DISCOVERY}
+server:
+  port: ${PORT}
+  redis:
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
+glaiss:
+  services:
+    gateway:
+      url: ${URL_GATEWAY}
+    lista:
+      url: ${URL_LISTA}
