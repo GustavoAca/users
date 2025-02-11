@@ -97,10 +97,6 @@ spring:
   flyway:
     user: ${USER_DB}
     password: ${PASSWORD_DB}
-  eureka:
-    client:
-      service-url:
-        defaultZone: ${URL_DISCOVERY}
   redis:
     host: ${REDIS_HOST}
     port: ${REDIS_PORT}
@@ -111,5 +107,9 @@ spring:
           hostname: prod-hostname
     client:
       hostname: prod-hostname
+eureka:
+  client:
+    service-url:
+      defaultZone: ${URL_DISCOVERY}
 server:
   port: ${PORT}
