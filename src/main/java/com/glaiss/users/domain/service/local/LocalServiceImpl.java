@@ -13,11 +13,12 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-public class LocalServieImpl extends BaseServiceImpl<Local, UUID, LocalRepository> implements LocalService {
+public class LocalServiceImpl extends BaseServiceImpl<Local, UUID, LocalRepository> implements LocalService {
 
     private final LocalMapper localMapper;
-    protected LocalServieImpl(LocalRepository repo,
-                              LocalMapper localMapper) {
+
+    protected LocalServiceImpl(LocalRepository repo,
+                               LocalMapper localMapper) {
         super(repo);
         this.localMapper = localMapper;
     }

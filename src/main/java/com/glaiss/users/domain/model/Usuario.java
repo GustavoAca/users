@@ -2,7 +2,6 @@ package com.glaiss.users.domain.model;
 
 import com.glaiss.core.domain.model.EntityAbstract;
 import com.glaiss.core.security.Privilegio;
-import com.glaiss.users.controller.dto.LoginRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,6 +29,6 @@ public class Usuario extends EntityAbstract {
     @Enumerated(EnumType.STRING)
     private Privilegio privilegio;
 
-    public boolean isLoginCorretc(LoginRequest loginRequest, BCryptPasswordEncoder bCryptPasswordEncoder) {
-        return bCryptPasswordEncoder.matches(loginRequest.password(), this.password);
+    public boolean isLoginCorretc(String password, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        return bCryptPasswordEncoder.matches(password, this.password);
     }}

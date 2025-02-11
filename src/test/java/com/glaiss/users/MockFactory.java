@@ -1,8 +1,11 @@
 package com.glaiss.users;
 
+import com.glaiss.core.security.Privilegio;
 import com.glaiss.core.utils.SecurityContextUtils;
+import com.glaiss.users.controller.dto.CreateUserDto;
 import com.glaiss.users.domain.model.ListaCompra;
 import com.glaiss.users.domain.model.Local;
+import com.glaiss.users.domain.model.Usuario;
 import com.glaiss.users.domain.model.dto.ListaCompraDto;
 import com.glaiss.users.domain.model.dto.LocalDto;
 import org.springframework.stereotype.Component;
@@ -52,6 +55,26 @@ public class MockFactory {
                 .bairro("Vila Japão")
                 .numero("3055")
                 .estado("SP")
+                .build();
+    }
+
+    public CreateUserDto construirCreatedUser() {
+        return new CreateUserDto("galasdalas@gmail.com",
+                Privilegio.ROLE_BASIC,
+                "1234");
+    }
+
+    public CreateUserDto construirCreatedUserExistente() {
+        return new CreateUserDto("galasdalas50@gmail.com",
+                Privilegio.ROLE_BASIC,
+                "1234");
+    }
+
+    public Usuario construirUsarioExistente() {
+        return Usuario.builder()
+                .username("galasdalas1@gmail.com")
+                .privilegio(Privilegio.ROLE_BASIC)
+                .password("1234")
                 .build();
     }
 }

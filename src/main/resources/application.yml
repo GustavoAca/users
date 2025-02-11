@@ -22,6 +22,7 @@ spring:
       hibernate:
         jdbc:
           time_zone: America/Sao_Paulo
+        default_schema: att_user
   security:
     enabled: true
   cache:
@@ -78,17 +79,10 @@ spring:
     activate:
       on-profile: dev
   datasource:
-    url: jdbc:postgresql://localhost:5432/glaiss?TimeZone=UTC
+    url: jdbc:postgresql://localhost:5432/glaiss?TimeZone=America/Sao_Paulo
     username: att_user
     password: user_ddl_SaintBier
     driver-class-name: org.postgresql.Driver
-
-glaiss:
-  services:
-    gateway:
-      url: http://localhost:8092
-    lista:
-      url: http://localhost:8090
 
 ---
 spring:
@@ -107,14 +101,15 @@ spring:
     client:
       service-url:
         defaultZone: ${URL_DISCOVERY}
-server:
-  port: ${PORT}
   redis:
     host: ${REDIS_HOST}
     port: ${REDIS_PORT}
-glaiss:
-  services:
-    gateway:
-      url: ${URL_GATEWAY}
-    lista:
-      url: ${URL_LISTA}
+  cloud:
+    discovery:
+      eureka:
+        instance:
+          hostname: prod-hostname
+    client:
+      hostname: prod-hostname
+server:
+  port: ${PORT}

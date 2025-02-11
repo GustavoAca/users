@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.UUID;
 
 @Validated
-@FeignClient(name = "lista-svc", url = "${glaiss.services.lista.url}", primary = false)
+@FeignClient(name = "LISTA", primary = false)
 public interface ListaService {
 
     @DeleteMapping("/itens-lista/{id}")

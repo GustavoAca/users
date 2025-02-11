@@ -60,7 +60,7 @@ public class TokenComponent {
     }
 
     private void validar(Usuario user, LoginRequest loginRequest) {
-        if (!user.isLoginCorretc(loginRequest, bCryptPasswordEncoder)) {
+        if (!user.isLoginCorretc(loginRequest.password(), bCryptPasswordEncoder)) {
             throw new CredencialException();
         }
     }
