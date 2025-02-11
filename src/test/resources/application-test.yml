@@ -5,8 +5,8 @@ spring:
   datasource:
     url: jdbc:h2:mem:testedb;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE
     driver-class-name: org.h2.Driver
-    username: att_user_app
-    password: user_ddl_SaintBier_app
+    username: sa
+    password: password
   jpa:
     show-sql: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
@@ -19,9 +19,8 @@ spring:
 
   flyway:
     locations: filesystem:../users/src/main/resources/db/migration/comum
-    user: att_user
-    password: user_ddl_SaintBier
-    schemas: att_user
+    user: sa
+    password: password
   security:
     oauth2:
       enabled: false

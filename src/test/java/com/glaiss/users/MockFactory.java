@@ -59,7 +59,7 @@ public class MockFactory {
     }
 
     public CreateUserDto construirCreatedUser() {
-        return new CreateUserDto("galasdalas@gmail.com",
+        return new CreateUserDto(String.format("galasdalas@gmail.com%S", UUID.randomUUID()),
                 Privilegio.ROLE_BASIC,
                 "1234");
     }

@@ -22,7 +22,6 @@ spring:
       hibernate:
         jdbc:
           time_zone: America/Sao_Paulo
-        default_schema: att_user
   security:
     enabled: true
   cache:
