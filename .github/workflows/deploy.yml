@@ -47,6 +47,9 @@ jobs:
           mkdir -p ~/.m2
           echo "<settings><servers><server><id>github</id><username>${{ secrets.USERNAME }}</username><password>${{ secrets.GITHUB_TOKEN }}</password></server></servers></settings>" > ~/.m2/settings.xml
 
+      - name: Configurar chave privada
+        run: echo "${{ secrets.JWT_PRIVATE_KEY }}" > src/main/resources/private.key
+
       - name: Verificar dependências e package
         run: mvn clean install -DskipTests
 
