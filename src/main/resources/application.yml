@@ -29,17 +29,24 @@ spring:
     redis:
       time-to-live: 3600s
   redis:
-    host: localhost
+    host: redis
     port: 6379
+    ssl:
+      enabled: false
+    timeout: 5000
+    jedis:
+      pool:
+        max-idle: 10
+        min-idle: 1
+        max-total: 20
   flyway:
     user: att_user
     password: user_ddl_SaintBier
     locations: classpath:db/migration
     table: FLYWAY_SCHEMA_HISTORY
-    schemas: att_user
 
 server:
-  port: 8190
+  port: 8180
 
 eureka:
   client:
@@ -96,9 +103,10 @@ spring:
   flyway:
     user: ${USER_DB}
     password: ${PASSWORD_DB}
-  redis:
-    host: ${REDIS_HOST}
-    port: ${REDIS_PORT}
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
   cloud:
     discovery:
       eureka:
