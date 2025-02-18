@@ -1,6 +1,10 @@
 <configuration>
     <timestampPattern>%d{yyyy-MM-dd HH:mm:ss.SSS, America/Sao_Paulo}</timestampPattern>
     <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %X{apiName} - %msg%n"/>
+
+    <springProperty scope="context" name="logstashDestination" source="logstash.destination"
+                    defaultValue="localhost:5000"/>
+
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>${LOG_PATTERN}</pattern>
@@ -8,9 +12,8 @@
     </appender>
 
     <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>logstash:5000</destination>
+        <destination>${logstashDestination}</destination>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
-
     </appender>
 
     <root level="info">

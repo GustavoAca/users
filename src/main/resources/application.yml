@@ -1,6 +1,6 @@
 spring:
   application:
-    name: USERS
+    name: users
     version: @project.version@
   cloud:
     discovery:
@@ -40,8 +40,8 @@ spring:
         min-idle: 1
         max-total: 20
   flyway:
-    user: att_user
-    password: user_ddl_SaintBier
+    user: gl_user
+    password: gl_user
     locations: classpath:db/migration
     table: FLYWAY_SCHEMA_HISTORY
 
@@ -79,6 +79,8 @@ jwt:
   private:
     key: classpath:private.key
 
+logstash:
+  destination: localhost:5000
 ---
 spring:
   config:
@@ -86,8 +88,8 @@ spring:
       on-profile: dev
   datasource:
     url: jdbc:postgresql://localhost:5432/glaiss?TimeZone=America/Sao_Paulo
-    username: att_user
-    password: user_ddl_SaintBier
+    username: gl_user
+    password: gl_user
     driver-class-name: org.postgresql.Driver
 
 ---
@@ -120,3 +122,5 @@ eureka:
       defaultZone: ${URL_DISCOVERY}
 server:
   port: ${PORT}
+logstash:
+  destination: ${LOGSTASH}
