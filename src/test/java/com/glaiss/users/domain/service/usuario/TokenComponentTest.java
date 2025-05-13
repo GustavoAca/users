@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class TokenComponentTest extends UsersApplicationTest {
 
     @Autowired
-    private TokenComponent tokenComponent;
+    private UsuarioComponent usuarioComponent;
 
     @Autowired
     private UsuarioService usuarioService;
@@ -42,7 +42,7 @@ class TokenComponentTest extends UsersApplicationTest {
 
             @BeforeEach
             void setup() {
-                loginResponse = tokenComponent.login(new LoginRequest(createUserDto.username(), createUserDto.password()));
+                loginResponse = usuarioComponent.login(new LoginRequest(createUserDto.username(), createUserDto.password()));
             }
 
             @Test
@@ -57,7 +57,7 @@ class TokenComponentTest extends UsersApplicationTest {
 
             @Test
             void Entao_deve_ter_sucesso() {
-                assertThrows(CredencialException.class, () -> tokenComponent.login(new LoginRequest(createUserDto.username(), "4321")));
+                assertThrows(CredencialException.class, () -> usuarioComponent.login(new LoginRequest(createUserDto.username(), "4321")));
             }
         }
 
@@ -70,7 +70,7 @@ class TokenComponentTest extends UsersApplicationTest {
                 Usuario usuario = usuarioService.findByUsername(createUserDto.username())
                         .orElseThrow(() -> new RegistroNaoEncontradoException(createUserDto.getClass().getName()));
 
-                isUsuarioExiste = tokenComponent.deletarUsuario(usuario.getId());
+                isUsuarioExiste = usuarioComponent.deletarUsuario(usuario.getId());
             }
 
             @Test
@@ -95,7 +95,7 @@ class TokenComponentTest extends UsersApplicationTest {
             @Test
             void Entao_deve_receber_excessao() {
                 assertThrows(RegistroNaoEncontradoException.class,
-                        () -> tokenComponent.login(
+                        () -> usuarioComponent.login(
                                 new LoginRequest(createUserDto.username(), createUserDto.password())));
             }
         }

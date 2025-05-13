@@ -2,6 +2,7 @@ package com.glaiss.users.domain.service.usuario;
 
 import com.glaiss.core.exception.CredencialException;
 import com.glaiss.core.exception.RegistroNaoEncontradoException;
+import com.glaiss.users.controller.dto.AlterarUserDto;
 import com.glaiss.users.controller.dto.CreateUserDto;
 import com.glaiss.users.controller.dto.LoginRequest;
 import com.glaiss.users.controller.dto.LoginResponse;
@@ -17,25 +18,23 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Component
-public class TokenComponent {
+public class UsuarioComponent {
 
     private final JwtEncoder jwtEncoder;
     private final UsuarioService usuarioService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final static Long EXPIRES_IN = 3050L;
 
-    public TokenComponent(JwtEncoder jwtEncoder,
-                          UsuarioService usuarioService,
-                          BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UsuarioComponent(JwtEncoder jwtEncoder,
+                            UsuarioService usuarioService,
+                            BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.jwtEncoder = jwtEncoder;
         this.usuarioService = usuarioService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     public LoginResponse login(LoginRequest loginRequest) {
-        Usuario user = usuarioService.findByUsername(loginRequest.username())
-                .orElseThrow(() -> new RegistroNaoEncontradoException("Usuario não encontrado"));
-
+        Usuario user = findUsuario(loginRequest.username());
         validar(user, loginRequest);
 
         var claims = criarClaims(user);
@@ -69,7 +68,24 @@ public class TokenComponent {
         usuarioService.cadastrarUsuario(createUserDto);
     }
 
-    public Boolean deletarUsuario(UUID id){
+    public Boolean deletarUsuario(UUID id) {
         return usuarioService.deletar(id);
+    }
+
+    public Boolean alterarSenha(AlterarUserDto alterarUserDto) {
+        try {
+            Usuario user = findUsuario(alterarUserDto.username());
+            user.setPassword(bCryptPasswordEncoder.encode(alterarUserDto.senha()));
+            usuarioService.salvar(user);
+            return Boolean.TRUE;
+        } catch (Exception e) {
+            return Boolean.FALSE;
+        }
+    }
+
+    private Usuario findUsuario(String username) {
+        return usuarioService.findByUsername(username)
+                .orElseThrow(() -> new RegistroNaoEncontradoException("Usuario não encontrado"));
+
     }
 }
