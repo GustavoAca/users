@@ -18,7 +18,7 @@ spring:
       path: /h2-console
 
   flyway:
-    locations: filesystem:../users/src/main/resources/db/migration/comum
+    locations: filesystem:../lista/src/main/resources/db/migration/comum
     user: sa
     password: password
   security:

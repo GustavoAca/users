@@ -25,14 +25,3 @@ CREATE TABLE USUARIOS (
    MODIFIED_BY          VARCHAR(100)               NULL,
    CONSTRAINT LOCAIS_PK PRIMARY KEY ( ID )
  );
-
- CREATE TABLE LISTAS_COMPRA (
-    ID                   UUID                       NOT NULL,
-    USUARIO_ID           UUID                       NOT NULL,
-    VALOR_TOTAL          NUMERIC(10,2)              NOT NULL,
-    CREATED_DATE         TIMESTAMP WITH TIME ZONE   NOT NULL,
-    MODIFIED_DATE        TIMESTAMP WITH TIME ZONE   NOT NULL,
-    CREATED_BY           VARCHAR(100)               NOT NULL,
-    MODIFIED_BY          VARCHAR(100)               NOT NULL,
-    CONSTRAINT PK_LISTAS_COMPRA_ID PRIMARY KEY ( ID )
- );

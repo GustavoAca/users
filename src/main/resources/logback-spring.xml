@@ -1,23 +1,45 @@
 <configuration>
+    <!-- Fuso horário e formato -->
     <timestampPattern>%d{yyyy-MM-dd HH:mm:ss.SSS, America/Sao_Paulo}</timestampPattern>
-    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %X{apiName} - %msg%n"/>
 
-    <springProperty scope="context" name="logstashDestination" source="logstash.destination"
-                    defaultValue="localhost:5000"/>
+    <!-- Variável de ambiente para identificar o serviço -->
+    <springProperty scope="context" name="apiName" source="spring.application.name" defaultValue="unknown-service"/>
 
+    <!-- Padrão de log no console -->
+    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %X{apiName:-${apiName}} - %msg%n"/>
+
+    <!-- Console -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>${LOG_PATTERN}</pattern>
         </encoder>
     </appender>
 
-    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>${logstashDestination}</destination>
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+    <!-- JSON local (para OpenSearch local / Fluent Bit / Data Prepper) -->
+    <appender name="JSON_FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/app-log.json</file>
+        <append>true</append>
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp/>
+                <pattern>
+                    <pattern>
+                        {
+                        "service": "${apiName}",
+                        "level": "%level",
+                        "thread": "%thread",
+                        "logger": "%logger",
+                        "message": "%message",
+                        "context": "%X"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
+        </encoder>
     </appender>
 
-    <root level="info">
-        <appender-ref ref="LOGSTASH"/>
+    <root level="INFO">
         <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="JSON_FILE"/>
     </root>
 </configuration>
