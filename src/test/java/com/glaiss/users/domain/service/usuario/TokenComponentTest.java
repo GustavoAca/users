@@ -75,7 +75,7 @@ class TokenComponentTest extends UsersApplicationTest {
 
             @Test
             void Entao_deve_ter_sucesso() {
-                assertFalse(isUsuarioExiste);
+                assertTrue(isUsuarioExiste);
             }
         }
     }

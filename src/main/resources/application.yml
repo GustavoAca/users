@@ -57,14 +57,14 @@ spring:
 github:
   oauth:
     client:
-      id: ${GITHUB_CLIENT_ID}
-      secret: ${GITHUB_CLIENT_SECRET}
+      id: ${GITHUB_CLIENT_ID:}
+      secret: ${GITHUB_CLIENT_SECRET:}
 
 google:
   oauth:
     client:
-      id: ${GOOGLE_CLIENT_ID}
-      secret: ${GOOGLE_CLIENT_SECRET}
+      id: ${GOOGLE_CLIENT_ID:}
+      secret: ${GOOGLE_CLIENT_SECRET:}
 
 server:
   port: 8180
