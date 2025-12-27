@@ -3,6 +3,7 @@ package com.glaiss.users.domain.service.usuario;
 
 import com.glaiss.core.domain.service.BaseServiceImpl;
 import com.glaiss.core.exception.RegistroJaCadastradoException;
+import com.glaiss.core.exception.RegistroNaoEncontradoException;
 import com.glaiss.users.controller.dto.CreateUserDto;
 import com.glaiss.users.domain.model.Usuario;
 import com.glaiss.users.domain.repository.UsuarioRepositoy;
@@ -46,5 +47,19 @@ public class UsuarioServiceImpl extends BaseServiceImpl<Usuario, UUID, UsuarioRe
                 .password(bCryptPasswordEncoder.encode(createUserDto.password()))
                 .privilegio(createUserDto.privilegio())
                 .build());
+    }
+
+    @Override
+    public Boolean deletar(UUID usuarioId) {
+        Usuario usuarioEncontrado = repo.findById(usuarioId)
+                .orElseThrow(() -> new RegistroNaoEncontradoException(Usuario.class.getName(), usuarioId.toString()));
+        usuarioEncontrado.setIsAtivo(Boolean.FALSE);
+
+        try {
+            super.salvar(usuarioEncontrado);
+            return Boolean.TRUE;
+        } catch (Exception e) {
+            return Boolean.FALSE;
+        }
     }
 }

@@ -24,11 +24,20 @@ spring:
           time_zone: America/Sao_Paulo
   security:
     enabled: true
+  feign:
+    client:
+      enabled: false
+  eureka:
+    enabled: true
+  discovery:
+    client:
+      enabled: false
   cache:
     type: redis
     redis:
       time-to-live: 3600s
   redis:
+    enabled: false
     host: redis
     port: 6379
     ssl:
@@ -44,6 +53,18 @@ spring:
     password: gl_user
     locations: classpath:db/migration
     table: FLYWAY_SCHEMA_HISTORY
+
+github:
+  oauth:
+    client:
+      id: ${GITHUB_CLIENT_ID}
+      secret: ${GITHUB_CLIENT_SECRET}
+
+google:
+  oauth:
+    client:
+      id: ${GOOGLE_CLIENT_ID}
+      secret: ${GOOGLE_CLIENT_SECRET}
 
 server:
   port: 8180
@@ -74,10 +95,14 @@ jwt:
   public:
     key: |
       -----BEGIN PUBLIC KEY-----
-      MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhocpCKsOQEoButV4V76t0S2Vdd6iMUiud/q5Qvt/MQb9JoXWnx/rlYhVsyr20jrIEgfTGU51oJaGZRovAVNuQLF0VlK/bUu9a4Ce5PRAEeWPdTFrFEdxTIBdG0gsbZlb/SotY6jW+zI+wJI3Yl5Lm9+tHx
-      LeCqCtLrXWCHngGnU9eLsEa1OR94aR9gcIuUJhu/QjSDbARjoNYv7FSnBFeXYqahcT3WGcos7M2RZh6SZnVlN7aZ+Ve1CVv5BCVJf7lwEpGEJjGtipx6XJoERO7jPhwie+dYmcpP4yTCvqGlTGPWyYPyi6QBZPznkcCKcqs2MPtXnNUm0PuLkyaMycvwIDAQAB
+      MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxyxs9a0bpYdH9x2hfjNS
+      yNnz4FXmSpPz9CRLbtVlvghnZ4G9HB3Z++Z2HfpLIPahoCyp+Bi8b9gmDue3qRAn
+      cSNH16LCcNrOYFapz9MoW3U6ijOKZJsowdWDnHY8e3FjSBTw5s4X9c2wha2v9Erj
+      QNYdIIDXmqWoWm2206MsDzbwQ4bQo69/zMYU0xUmI0ZQViYVa6DVvXXZrYyyLNOv
+      JrSxF+Fs3fN3Mv6/rELmwrR9KJNL+NaKuQW7BDV8L0f5m6davtQwzSmwkR+BlT97
+      4wPPPdnZN+CzRW+7wAHTsMw1D8nEtL2bkHh1X82p+2nyMl+qQ/FtTaYEvbnazPGs
+      ewIDAQAB
       -----END PUBLIC KEY-----
-
   private:
     key: classpath:private.key
 

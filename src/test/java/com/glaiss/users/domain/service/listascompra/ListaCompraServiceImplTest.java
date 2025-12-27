@@ -5,7 +5,6 @@ import com.glaiss.core.exception.RegistroNaoEncontradoException;
 import com.glaiss.core.utils.SecurityContextUtils;
 import com.glaiss.users.MockFactory;
 import com.glaiss.users.UsersApplicationTest;
-import com.glaiss.users.domain.model.dto.ListaCompraDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

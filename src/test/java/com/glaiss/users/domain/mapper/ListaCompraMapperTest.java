@@ -2,8 +2,6 @@ package com.glaiss.users.domain.mapper;
 
 import com.glaiss.users.MockFactory;
 import com.glaiss.users.UsersApplicationTest;
-import com.glaiss.users.domain.model.ListaCompra;
-import com.glaiss.users.domain.model.dto.ListaCompraDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

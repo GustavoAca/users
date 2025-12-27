@@ -3,11 +3,7 @@ package com.glaiss.users;
 import com.glaiss.core.security.Privilegio;
 import com.glaiss.core.utils.SecurityContextUtils;
 import com.glaiss.users.controller.dto.CreateUserDto;
-import com.glaiss.users.domain.model.ListaCompra;
-import com.glaiss.users.domain.model.Local;
 import com.glaiss.users.domain.model.Usuario;
-import com.glaiss.users.domain.model.dto.ListaCompraDto;
-import com.glaiss.users.domain.model.dto.LocalDto;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
