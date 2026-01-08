@@ -2,13 +2,12 @@ package com.glaiss.users.domain.service.usuario;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.glaiss.users.UsersApplicationTest;
+import com.glaiss.users.domain.model.RefreshToken;
 import com.glaiss.users.domain.service.refreshtoken.TokenService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -32,7 +31,7 @@ class TokenServiceTest extends UsersApplicationTest {
 
             @Test
             void Entao_deve_disparar_excecao() {
-                assertThrows(JWTVerificationException.class, () -> tokenService.verificarToken(refreshToken));
+                assertThrows(JWTVerificationException.class, () -> tokenService.validarRefreshToken(refreshToken));
             }
         }
     }
@@ -48,18 +47,16 @@ class TokenServiceTest extends UsersApplicationTest {
 
         @Nested
         class Quando_validar_token_deve_disparar_excecao {
-            private Map<String, String> refreshTokenVerificado;
+            private RefreshToken refreshTokenVerificado;
 
             @BeforeEach
             void setup() {
-                refreshTokenVerificado = tokenService.verificarToken(refreshToken);
+                refreshTokenVerificado = tokenService.validarRefreshToken(refreshToken);
             }
 
             @Test
             void Entao_deve_retornar_falso_quando_token_for_valido() {
                 assertNotNull(refreshTokenVerificado);
-                assertNotNull(refreshTokenVerificado.get("userId"));
-                assertNotNull(refreshTokenVerificado.get("username"));
             }
         }
     }
