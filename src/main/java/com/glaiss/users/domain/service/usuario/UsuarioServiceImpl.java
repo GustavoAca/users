@@ -6,9 +6,8 @@ import com.glaiss.core.exception.RegistroJaCadastradoException;
 import com.glaiss.core.exception.RegistroNaoEncontradoException;
 import com.glaiss.core.security.Privilegio;
 import com.glaiss.users.controller.dto.CreateUserDto;
-import com.glaiss.users.controller.dto.LoginResponse;
 import com.glaiss.users.domain.model.Usuario;
-import com.glaiss.users.domain.repository.UsuarioRepositoy;
+import com.glaiss.users.domain.repository.UsuarioRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,12 +18,12 @@ import java.util.UUID;
 
 @Slf4j
 @Service
-public class UsuarioServiceImpl extends BaseServiceImpl<Usuario, UUID, UsuarioRepositoy> implements UsuarioService {
+public class UsuarioServiceImpl extends BaseServiceImpl<Usuario, UUID, UsuarioRepository> implements UsuarioService {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    protected UsuarioServiceImpl(UsuarioRepositoy repo,
+    protected UsuarioServiceImpl(UsuarioRepository repo,
                                  BCryptPasswordEncoder bCryptPasswordEncoder) {
         super(repo);
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;

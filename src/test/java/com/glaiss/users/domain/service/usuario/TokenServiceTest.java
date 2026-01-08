@@ -2,6 +2,7 @@ package com.glaiss.users.domain.service.usuario;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.glaiss.users.UsersApplicationTest;
+import com.glaiss.users.domain.service.refreshtoken.TokenService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -9,7 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class TokenServiceTest extends UsersApplicationTest {
 

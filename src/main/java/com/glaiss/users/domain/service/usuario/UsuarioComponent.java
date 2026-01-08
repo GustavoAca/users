@@ -3,18 +3,16 @@ package com.glaiss.users.domain.service.usuario;
 import com.glaiss.core.exception.CredencialException;
 import com.glaiss.core.exception.RegistroNaoEncontradoException;
 import com.glaiss.core.security.Privilegio;
+import com.glaiss.core.utils.SecurityContextUtils;
 import com.glaiss.users.controller.dto.*;
+import com.glaiss.users.domain.model.RefreshToken;
 import com.glaiss.users.domain.model.Usuario;
-import com.glaiss.users.domain.model.dto.UserSubjectDto;
+import com.glaiss.users.domain.service.refreshtoken.TokenService;
 import com.glaiss.users.infra.client.oauth.DadosOauth;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.oauth2.jwt.JwtClaimsSet;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
-import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Component;
 
-import java.time.Instant;
-import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -60,6 +58,9 @@ public class UsuarioComponent {
 
     public Boolean alterarSenha(AlterarUserDto alterarUserDto) {
         try {
+            if (!Objects.equals(SecurityContextUtils.getUsername(), alterarUserDto.username())) {
+                return Boolean.FALSE;
+            }
             Usuario user = buscarUsuario(alterarUserDto.username());
             user.setPassword(bCryptPasswordEncoder.encode(alterarUserDto.senha()));
             usuarioService.salvar(user);
@@ -91,10 +92,13 @@ public class UsuarioComponent {
     }
 
     public LoginResponse renovarToken(String refreshToken) {
-        Map<String, String> usuarioEncontrado = tokenService.verificarToken(refreshToken);
-        Usuario user = new Usuario();
-        user.setId(UUID.fromString(usuarioEncontrado.get("userId")));
-        user.setUsername((usuarioEncontrado.get("username")));
-        return tokenService.criarTokens(user);
+        RefreshToken refreshtokenValidado = tokenService.validarRefreshToken(refreshToken);
+        if(refreshtokenValidado != null){
+            Optional<Usuario> usuario = usuarioService.findByUsername(refreshtokenValidado.getUsuario().getUsername());
+            if (usuario.isPresent()) {
+                return tokenService.renovarToken(refreshtokenValidado, usuario.get());
+            }
+        }
+        throw new CredencialException();
     }
 }

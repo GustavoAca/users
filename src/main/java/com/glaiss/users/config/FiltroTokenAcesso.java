@@ -2,7 +2,7 @@ package com.glaiss.users.config;
 
 import com.glaiss.core.utils.SecurityContextUtils;
 import com.glaiss.users.domain.model.Usuario;
-import com.glaiss.users.domain.repository.UsuarioRepositoy;
+import com.glaiss.users.domain.repository.UsuarioRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,9 +18,9 @@ import java.io.IOException;
 @Component
 public class FiltroTokenAcesso extends OncePerRequestFilter {
 
-    private final UsuarioRepositoy usuarioRepositoy;
+    private final UsuarioRepository usuarioRepositoy;
 
-    public FiltroTokenAcesso(UsuarioRepositoy usuarioRepositoy) {
+    public FiltroTokenAcesso(UsuarioRepository usuarioRepositoy) {
         this.usuarioRepositoy = usuarioRepositoy;
     }
 

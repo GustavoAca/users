@@ -91,8 +91,6 @@ management:
         enabled: true
         url: http://localhost:9411/api/v2/spans
 
-secret-key: ${SECRET_KEY:default_secret_key}
-
 jwt:
   public:
     key: |

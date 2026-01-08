@@ -1,2 +1,2 @@
-INSERT INTO usuarios (id, username, password, nome, privilegio, is_ativo, created_date, modified_date, created_by, modified_by)
+INSERT INTO usuarios (id, username, nome, password, privilegio, is_ativo, created_date, modified_date, created_by, modified_by)
 VALUES ('c0a7b5f5-fc77-4afe-bf73-8213b3862bfb', 'galasdalas50@gmail.com', 'Gustavo', '$2a$10$Fjw0SCqD3J1Buuc4UmaCVOaVy6Pt6JXxG5LceC0yQzyqdP7uveQ8e', 'ROLE_ADMIN', 'true', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'GLAISS', 'GLAISS');

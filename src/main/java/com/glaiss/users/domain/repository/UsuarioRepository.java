@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface UsuarioRepositoy extends BaseRepository<Usuario, UUID> {
+public interface UsuarioRepository extends BaseRepository<Usuario, UUID> {
 
     Optional<Usuario> findByUsername(String username);
 }
