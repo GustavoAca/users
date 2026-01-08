@@ -48,7 +48,6 @@ class UsuarioServiceImplTest extends UsersApplicationTest {
             @Test
             void Entao_deve_cadastrar_com_sucesso() {
                 assertEquals(createUserDto.username(), usuario.getUsername());
-                assertEquals(createUserDto.privilegio(), usuario.getPrivilegio());
                 assertTrue(usuario.isLoginCorretc(createUserDto.password(), bCryptPasswordEncoder));
             }
         }
@@ -62,7 +61,7 @@ class UsuarioServiceImplTest extends UsersApplicationTest {
         void setup() {
             Usuario usuario = mockFactory.construirUsarioExistente();
             usuarioService.salvar(usuario);
-            createUserDto = new CreateUserDto(usuario.getUsername(), usuario.getPrivilegio(), usuario.getUsername());
+            createUserDto = new CreateUserDto(usuario.getUsername(), usuario.getNome(), usuario.getPassword());
         }
 
         @Nested

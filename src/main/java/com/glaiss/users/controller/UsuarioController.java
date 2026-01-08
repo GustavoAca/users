@@ -40,4 +40,9 @@ public class UsuarioController {
     public Boolean alterar(@RequestBody AlterarUserDto alterarUserDto) {
         return usuarioComponent.alterarSenha(alterarUserDto);
     }
+
+    @PostMapping("/atualizar-token")
+    public LoginResponse renovarToken(@RequestBody String refreshToken) {
+        return usuarioComponent.renovarToken(refreshToken);
+    }
 }

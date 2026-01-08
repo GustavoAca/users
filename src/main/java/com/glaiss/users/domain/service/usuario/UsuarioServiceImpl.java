@@ -4,7 +4,9 @@ package com.glaiss.users.domain.service.usuario;
 import com.glaiss.core.domain.service.BaseServiceImpl;
 import com.glaiss.core.exception.RegistroJaCadastradoException;
 import com.glaiss.core.exception.RegistroNaoEncontradoException;
+import com.glaiss.core.security.Privilegio;
 import com.glaiss.users.controller.dto.CreateUserDto;
+import com.glaiss.users.controller.dto.LoginResponse;
 import com.glaiss.users.domain.model.Usuario;
 import com.glaiss.users.domain.repository.UsuarioRepositoy;
 import lombok.extern.slf4j.Slf4j;
@@ -44,8 +46,9 @@ public class UsuarioServiceImpl extends BaseServiceImpl<Usuario, UUID, UsuarioRe
 
         super.salvar(Usuario.builder()
                 .username(createUserDto.username())
+                .nome(createUserDto.nome())
                 .password(bCryptPasswordEncoder.encode(createUserDto.password()))
-                .privilegio(createUserDto.privilegio())
+                .privilegio(Privilegio.ROLE_FREE)
                 .build());
     }
 

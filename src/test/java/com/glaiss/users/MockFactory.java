@@ -14,13 +14,13 @@ public class MockFactory {
 
     public CreateUserDto construirCreatedUser() {
         return new CreateUserDto(String.format("galasdalas@gmail.com%S", UUID.randomUUID()),
-                Privilegio.ROLE_BASIC,
+                "Gustavo",
                 "1234");
     }
 
     public CreateUserDto construirCreatedUserExistente() {
         return new CreateUserDto("galasdalas50@gmail.com",
-                Privilegio.ROLE_BASIC,
+                "Gustavo",
                 "1234");
     }
 

@@ -91,5 +91,4 @@ public class OauthGoogleServiceImpl implements OauthService {
         }
         return body.get("id_token").toString();
     }
-
 }
