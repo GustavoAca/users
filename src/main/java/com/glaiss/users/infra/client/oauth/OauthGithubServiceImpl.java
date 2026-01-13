@@ -6,11 +6,7 @@ import com.glaiss.users.domain.service.usuario.UsuarioComponent;
 import com.glaiss.users.infra.client.dto.GithubAccessTokenResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -32,7 +28,7 @@ public class OauthGithubServiceImpl implements OauthService {
                                   UsuarioComponent usuarioComponent,
                                   @Value("${github.oauth.client.id}") String clientId,
                                   @Value("${github.oauth.client.secret}") String clientSecret,
-                                  @Value("${github.oauth.redirect-uri:http://localhost:8180/users/oauth/github/autorizado}") String redirectUri) {
+                                  @Value("${github.oauth.client.redirect-uri}") String redirectUri) {
         this.restTemplate = restTemplate;
         this.usuarioComponent = usuarioComponent;
         this.clientId = clientId;

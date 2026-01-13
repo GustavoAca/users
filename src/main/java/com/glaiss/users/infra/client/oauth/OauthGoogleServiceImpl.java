@@ -4,11 +4,9 @@ import com.auth0.jwt.JWT;
 import com.glaiss.core.exception.RegistroNaoEncontradoException;
 import com.glaiss.users.controller.dto.DadosToken;
 import com.glaiss.users.domain.service.usuario.UsuarioComponent;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -31,7 +29,7 @@ public class OauthGoogleServiceImpl implements OauthService {
                                   UsuarioComponent usuarioComponent,
                                   @Value("${google.oauth.client.id}") String clientId,
                                   @Value("${google.oauth.client.secret}") String clientSecret,
-                                  @Value("${google.oauth.redirect-uri:http://localhost:8180/users/oauth/google/autorizado}") String redirectUri) {
+                                  @Value("${google.oauth.client.redirect-uri}") String redirectUri) {
         this.restTemplate = restTemplate;
         this.usuarioComponent = usuarioComponent;
         this.clientId = clientId;
