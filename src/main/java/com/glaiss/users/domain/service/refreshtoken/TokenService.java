@@ -3,6 +3,7 @@ package com.glaiss.users.domain.service.refreshtoken;
 import com.glaiss.core.exception.CredencialException;
 import com.glaiss.users.controller.dto.DadosToken;
 import com.glaiss.users.controller.dto.LoginResponse;
+import com.glaiss.users.controller.dto.RefreshTokenDto;
 import com.glaiss.users.domain.model.RefreshToken;
 import com.glaiss.users.domain.model.Usuario;
 import com.glaiss.users.domain.model.dto.UserSubjectDto;
@@ -91,7 +92,7 @@ public class TokenService {
         }
     }
 
-    public RefreshToken validarRefreshToken(String refreshToken) {
+    public RefreshToken validarRefreshToken(RefreshTokenDto refreshToken) {
         try {
             return refreshTokenService.validar(refreshToken);
         } catch (Exception e) {

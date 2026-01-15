@@ -1,9 +1,6 @@
 package com.glaiss.users.controller;
 
-import com.glaiss.users.controller.dto.AlterarUserDto;
-import com.glaiss.users.controller.dto.CreateUserDto;
-import com.glaiss.users.controller.dto.LoginRequest;
-import com.glaiss.users.controller.dto.LoginResponse;
+import com.glaiss.users.controller.dto.*;
 import com.glaiss.users.domain.service.usuario.UsuarioComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +39,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/atualizar-token")
-    public LoginResponse renovarToken(@RequestBody String refreshToken) {
+    public LoginResponse renovarToken(@RequestBody RefreshTokenDto refreshToken) {
         return usuarioComponent.renovarToken(refreshToken);
     }
 }

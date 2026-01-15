@@ -1,6 +1,7 @@
 package com.glaiss.users.domain.service.refreshtoken;
 
 import com.glaiss.core.domain.service.BaseServiceImpl;
+import com.glaiss.users.controller.dto.RefreshTokenDto;
 import com.glaiss.users.domain.model.RefreshToken;
 import com.glaiss.users.domain.model.Usuario;
 import com.glaiss.users.domain.repository.RefreshTokenRepository;
@@ -38,9 +39,9 @@ public class RefreshTokenServiceImpl extends BaseServiceImpl<RefreshToken, UUID,
     }
 
     @Override
-    public RefreshToken validar(String token) throws AccessDeniedException {
+    public RefreshToken validar(RefreshTokenDto token) throws AccessDeniedException {
 
-        RefreshToken refresh = repo.findByTokenAndRevokedFalse(token)
+        RefreshToken refresh = repo.findByTokenAndRevokedFalse(token.refreshToken())
                 .orElseThrow(() -> new AccessDeniedException("Refresh token inválido"));
 
         if (refresh.getExpiresAt().isBefore(Instant.now())) {

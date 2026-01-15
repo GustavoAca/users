@@ -1,6 +1,7 @@
 package com.glaiss.users.domain.service.refreshtoken;
 
 import com.glaiss.core.domain.service.BaseService;
+import com.glaiss.users.controller.dto.RefreshTokenDto;
 import com.glaiss.users.domain.model.RefreshToken;
 import com.glaiss.users.domain.model.Usuario;
 
@@ -9,7 +10,7 @@ import java.util.UUID;
 
 public interface RefreshTokenService extends BaseService<RefreshToken, UUID> {
 
-    RefreshToken validar(String token) throws AccessDeniedException;
+    RefreshToken validar(RefreshTokenDto token) throws AccessDeniedException;
 
     RefreshToken criar(Usuario usuario);
 

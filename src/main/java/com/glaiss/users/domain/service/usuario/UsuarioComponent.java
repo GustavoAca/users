@@ -72,7 +72,7 @@ public class UsuarioComponent {
 
     public Usuario buscarUsuario(String username) {
         return usuarioService.findByUsername(username)
-                .orElseThrow(() -> new RegistroNaoEncontradoException("Usuario não encontrado"));
+                .orElseThrow(() -> new RegistroNaoEncontradoException("Usuário ou senha inválidos."));
     }
 
     public Usuario buscarUsuarioSeNaoExistirCriar(DadosOauth dadosOauth) {
@@ -91,7 +91,7 @@ public class UsuarioComponent {
         }
     }
 
-    public LoginResponse renovarToken(String refreshToken) {
+    public LoginResponse renovarToken(RefreshTokenDto refreshToken) {
         RefreshToken refreshtokenValidado = tokenService.validarRefreshToken(refreshToken);
         if(refreshtokenValidado != null){
             Optional<Usuario> usuario = usuarioService.findByUsername(refreshtokenValidado.getUsuario().getUsername());
