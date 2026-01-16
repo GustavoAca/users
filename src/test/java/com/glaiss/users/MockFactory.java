@@ -1,12 +1,11 @@
 package com.glaiss.users;
 
 import com.glaiss.core.security.Privilegio;
-import com.glaiss.core.utils.SecurityContextUtils;
 import com.glaiss.users.controller.dto.CreateUserDto;
 import com.glaiss.users.domain.model.Usuario;
+import com.glaiss.users.infra.client.oauth.DadosOauth;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 
 @Component
@@ -30,5 +29,9 @@ public class MockFactory {
                 .privilegio(Privilegio.ROLE_BASIC)
                 .password("1234")
                 .build();
+    }
+
+    public DadosOauth construirDadosOauth() {
+        return new DadosOauth("galasdalas50gmail.com", "Gustavo");
     }
 }
