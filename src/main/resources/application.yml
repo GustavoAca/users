@@ -110,6 +110,28 @@ jwt:
 
 logstash:
   destination: localhost:5000
+
+logging:
+  level:
+    root: WARN
+
+    # Spring
+    org.springframework: WARN
+    org.springframework.web: WARN
+    org.springframework.boot: WARN
+    org.springframework.security: WARN
+
+    # Hibernate / JPA
+    org.hibernate: WARN
+    org.hibernate.SQL: OFF
+    org.hibernate.type.descriptor.sql: OFF
+
+    # Infra
+    org.apache: WARN
+    reactor.netty: WARN
+
+    com.glaiss: INFO
+
 ---
 spring:
   config:

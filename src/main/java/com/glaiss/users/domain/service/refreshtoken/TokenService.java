@@ -36,7 +36,7 @@ public class TokenService {
     }
 
     public DadosToken criarTokensOauth(Usuario user) {
-        return new DadosToken(criarTokenJwt(user), criarRefreshTokenJwt(user, refreshTokenService.criar(user).getToken()));
+        return new DadosToken(criarTokenJwt(user), criarRefreshTokenJwt(user, refreshTokenService.criar(user).getToken()), EXPIRES_IN);
     }
 
     private String criarTokenJwt(Usuario usuario) {

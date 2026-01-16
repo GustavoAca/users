@@ -1,23 +1,71 @@
-<configuration>
-    <timestampPattern>%d{yyyy-MM-dd HH:mm:ss.SSS, America/Sao_Paulo}</timestampPattern>
-    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %X{apiName} - %msg%n"/>
+<configuration scan="true">
 
-    <springProperty scope="context" name="logstashDestination" source="logstash.destination"
+    <!-- Timezone -->
+    <timestamp key="ts" datePattern="yyyy-MM-dd'T'HH:mm:ss.SSSXXX"/>
+
+    <!-- Properties -->
+    <property name="CONSOLE_PATTERN"
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS, America/Sao_Paulo} [%thread] %-5level %logger{36} [%X{traceId:-}] %X{http.method:-} %X{http.path:-} - %msg%n"/>
+
+    <springProperty scope="context"
+                    name="LOGSTASH_DESTINATION"
+                    source="logstash.destination"
                     defaultValue="localhost:5000"/>
 
+    <!-- ===================== -->
+    <!-- CONSOLE (LOCAL / K8s) -->
+    <!-- ===================== -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>${LOG_PATTERN}</pattern>
+            <pattern>${CONSOLE_PATTERN}</pattern>
         </encoder>
     </appender>
 
+    <!-- ===================== -->
+    <!-- LOGSTASH (ELK) -->
+    <!-- ===================== -->
     <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>${logstashDestination}</destination>
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+        <destination>${LOGSTASH_DESTINATION}</destination>
+
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp />
+                <logLevel />
+                <loggerName />
+                <threadName />
+                <message />
+                <mdc />
+                <stackTrace />
+
+                <globalCustomFields>
+                    {
+                    "service.name":"users-service",
+                    "environment":"${spring.profiles.active:-local}"
+                    }
+                </globalCustomFields>
+            </providers>
+        </encoder>
     </appender>
 
-    <root level="info">
-        <appender-ref ref="LOGSTASH"/>
+    <!-- ===================== -->
+    <!-- LOGGERS -->
+    <!-- ===================== -->
+
+    <!-- Frameworks -->
+    <logger name="org.springframework" level="WARN"/>
+    <logger name="org.hibernate" level="WARN"/>
+    <logger name="org.apache" level="WARN"/>
+    <logger name="reactor.netty" level="WARN"/>
+
+    <!-- Aplicação -->
+    <logger name="com.glaiss" level="INFO"/>
+
+    <!-- ===================== -->
+    <!-- ROOT -->
+    <!-- ===================== -->
+    <root level="WARN">
         <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="LOGSTASH"/>
     </root>
+
 </configuration>

@@ -2,6 +2,7 @@ package com.glaiss.users.controller;
 
 import com.glaiss.users.controller.dto.*;
 import com.glaiss.users.domain.service.usuario.UsuarioComponent;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,6 +10,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/usuarios")
+@Slf4j
 public class UsuarioController {
 
     private final UsuarioComponent usuarioComponent;
@@ -25,6 +27,7 @@ public class UsuarioController {
 
     @PostMapping("/login")
     public LoginResponse login(@RequestBody LoginRequest loginRequest) {
+        log.debug("Entrando com o usuario {}", loginRequest.username());
         return usuarioComponent.login(loginRequest);
     }
 
