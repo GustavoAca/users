@@ -84,7 +84,7 @@ class OauthGithubServiceImplTest extends UsersApplicationTest {
             when(restTemplate.exchange(eq("https://api.github.com/user/emails"), eq(HttpMethod.GET), any(HttpEntity.class), eq(DadosEmail[].class)))
                     .thenReturn(emailsEntity);
 
-            DadosToken dadosToken = new DadosToken("accessJwt", "refreshJwt");
+            DadosToken dadosToken = new DadosToken("accessJwt", "refreshJwt", 1);
             when(usuarioComponent.loginOauth(any())).thenReturn(dadosToken);
 
             DadosToken resp = service.autenticar(code);
@@ -92,6 +92,7 @@ class OauthGithubServiceImplTest extends UsersApplicationTest {
             assertNotNull(resp);
             assertEquals("accessJwt", resp.token());
             assertEquals("refreshJwt", resp.refreshToken());
+            assertEquals(1, resp.expiresIn());
             verify(restTemplate, times(1)).postForEntity(anyString(), any(HttpEntity.class), eq(GithubAccessTokenResponse.class));
             verify(restTemplate, times(1)).exchange(eq("https://api.github.com/user"), eq(HttpMethod.GET), any(HttpEntity.class), eq(Map.class));
             verify(restTemplate, times(1)).exchange(eq("https://api.github.com/user/emails"), eq(HttpMethod.GET), any(HttpEntity.class), eq(DadosEmail[].class));

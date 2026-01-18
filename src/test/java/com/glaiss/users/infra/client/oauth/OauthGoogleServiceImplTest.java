@@ -94,7 +94,7 @@ class OauthGoogleServiceImplTest extends UsersApplicationTest {
             try (MockedStatic<JWT> jwtMock = mockStatic(JWT.class)) {
                 jwtMock.when(() -> JWT.decode(idToken)).thenReturn(decodedJWT);
 
-                DadosToken token = new DadosToken("access", "refresh");
+                DadosToken token = new DadosToken("access", "refresh", 1);
                 when(usuarioComponent.loginOauth(any())).thenReturn(token);
 
                 DadosToken resp = service.autenticar("code");
@@ -102,6 +102,7 @@ class OauthGoogleServiceImplTest extends UsersApplicationTest {
                 assertNotNull(resp);
                 assertEquals("access", resp.token());
                 assertEquals("refresh", resp.refreshToken());
+                assertEquals(1, resp.expiresIn());
             }
         }
     }

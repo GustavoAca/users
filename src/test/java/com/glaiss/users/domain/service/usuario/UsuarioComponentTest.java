@@ -104,7 +104,7 @@ class UsuarioComponentTest extends UsersApplicationTest {
             DadosOauth dados = new DadosOauth("existente@example.com", "Nome");
             Usuario usuarioMock = mock(Usuario.class);
             when(usuarioService.findByUsername(dados.email())).thenReturn(Optional.of(usuarioMock));
-            when(tokenService.criarTokensOauth(usuarioMock)).thenReturn(new DadosToken("accessJwt", "refreshJwt"));
+            when(tokenService.criarTokensOauth(usuarioMock)).thenReturn(new DadosToken("accessJwt", "refreshJwt", 1));
 
             DadosToken resp = usuarioComponent.loginOauth(dados);
             assertNotNull(resp);
@@ -123,7 +123,7 @@ class UsuarioComponentTest extends UsersApplicationTest {
             when(usuarioService.findByUsername(dados.email())).thenReturn(Optional.empty());
             when(bCryptPasswordEncoder.encode(anyString())).thenReturn("encodedPwd");
             when(usuarioService.salvar(any())).thenAnswer(invocation -> invocation.getArgument(0));
-            when(tokenService.criarTokensOauth(any())).thenReturn(new DadosToken("access", "refresh"));
+            when(tokenService.criarTokensOauth(any())).thenReturn(new DadosToken("access", "refresh", 1));
 
             DadosToken resp = usuarioComponent.loginOauth(dados);
             assertNotNull(resp);
