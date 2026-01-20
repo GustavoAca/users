@@ -1,13 +1,16 @@
 package com.glaiss.users.domain.model.dto;
 
+import com.glaiss.core.security.Privilegio;
 import lombok.Builder;
 
+import java.util.List;
 import java.util.UUID;
 
 @Builder
 public record UserSubjectRefreshTokenDto(UUID userId,
                                          String username,
-                                         String refreshToken) {
+                                         String refreshToken,
+                                         List<Privilegio> privilegios) {
 
     @Override
     public String toString() {

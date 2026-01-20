@@ -1,6 +1,7 @@
 package com.glaiss.users.domain.service.refreshtoken;
 
 import com.glaiss.core.exception.CredencialException;
+import com.glaiss.core.security.Privilegio;
 import com.glaiss.users.controller.dto.DadosToken;
 import com.glaiss.users.controller.dto.LoginResponse;
 import com.glaiss.users.controller.dto.RefreshTokenDto;
@@ -53,6 +54,7 @@ public class TokenService {
                         .username(user.getUsername())
                         .build()
                         .toString())
+                .claim("privilegios", Privilegio.getHierarquia(user.getPrivilegio().toString()))
                 .expiresAt(expiracao())
                 .issuedAt(now)
                 .claim("authorities", user.getPrivilegio())
