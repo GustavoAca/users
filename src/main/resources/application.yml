@@ -69,14 +69,14 @@ google:
       redirect-uri: ${GOOGLE_CLIENT_REDIRECT_URI:}
 
 server:
-  port: 8180
+  port: 8197
   servlet:
     context-path: /users
 
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/discovery/eureka
+      defaultZone: ${URL_DISCOVERY:http://localhost:8761/discovery/eureka}
     fetch-registry: true
     register-with-eureka: true
 
@@ -164,14 +164,23 @@ spring:
     discovery:
       eureka:
         instance:
-          hostname: prod-hostname
+          hostname: ${EUREKA_INSTANCE_HOSTNAME}
     client:
-      hostname: prod-hostname
+      hostname: ${EUREKA_INSTANCE_HOSTNAME}
 eureka:
   client:
     service-url:
       defaultZone: ${URL_DISCOVERY}
+  instance:
+    hostname: ${EUREKA_INSTANCE_HOSTNAME}
+    non-secure-port: ${EUREKA_INSTANCE_NON_SECURE_PORT}
+    prefer-ip-address: false
+    instance-id: ${spring.application.name}:${server.port}
 server:
   port: ${PORT}
 logstash:
   destination: ${LOGSTASH}
+
+jwt:
+  private:
+    key: ${JWT-PRIVATE-KEY}
