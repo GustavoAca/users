@@ -23,8 +23,8 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.reactive.CorsConfigurationSource;
-import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
@@ -60,6 +60,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/locais").hasAuthority(Privilegio.ROLE_FREE.name())
                         .anyRequest().authenticated())
                 .csrf(AbstractHttpConfigurer::disable)
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .addFilterBefore(filtroTokenAcesso, UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer(oauth2 -> oauth2
@@ -89,8 +90,25 @@ public class SecurityConfig {
     @Value("${servico-externos-permitidos}")
     private String servicosExternos;
 
+    @Value("${eureka.client.enabled}")
+    private boolean isGatewayActive;
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
+        if(isGatewayActive){
+            CorsConfiguration config = new CorsConfiguration();
+            config.setAllowedOrigins(List.of());
+            config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+            config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+            config.setAllowCredentials(true);
+
+            org.springframework.web.cors.UrlBasedCorsConfigurationSource source =
+                    new UrlBasedCorsConfigurationSource();
+
+            source.registerCorsConfiguration("/**", config);
+
+            return source;
+        }
         CorsConfiguration config = new CorsConfiguration();
         String[] servicosLista = this.servicosExternos.split(",");
         config.setAllowedOrigins(List.of(servicosLista));
@@ -98,7 +116,7 @@ public class SecurityConfig {
         config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         config.setAllowCredentials(true);
 
-        UrlBasedCorsConfigurationSource source =
+        org.springframework.web.cors.UrlBasedCorsConfigurationSource source =
                 new UrlBasedCorsConfigurationSource();
 
         source.registerCorsConfiguration("/**", config);
