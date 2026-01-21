@@ -4,14 +4,14 @@ spring:
     version: @project.version@
   cloud:
     discovery:
-      enabled: true
+      enabled: ${DISCOVERY_ENABLED:false}
       eureka:
         instance:
           hostname: localhost
     client:
       hostname: localhost
     loadbalancer:
-      enabled: true
+      enabled: ${LOADBALANCER_ENABLED:false}
       ribbon:
         enabled: false
   jackson:
@@ -26,18 +26,18 @@ spring:
     enabled: true
   feign:
     client:
-      enabled: false
+      enabled: ${FEIGN_ENABLED:false}
   eureka:
-    enabled: true
+    enabled: ${EUREKA_ENABLED:false}
   discovery:
     client:
-      enabled: false
+      enabled: ${DISCOVERY_ENABLED:false}
   cache:
-    type: redis
+    type: ${CACHE_TYPE:simple}
     redis:
       time-to-live: 3600s
   redis:
-    enabled: false
+    enabled: ${REDIS_ENABLED:false}
     host: redis
     port: 6379
     ssl:
@@ -75,6 +75,7 @@ server:
 
 eureka:
   client:
+    enabled: ${EUREKA_CLIENT_ENABLED:false}
     service-url:
       defaultZone: ${URL_DISCOVERY:http://localhost:8761/discovery/eureka}
     fetch-registry: true
@@ -132,6 +133,7 @@ logging:
 
     com.glaiss: INFO
 
+servico-externos-permitidos: localhost:4200,localhost:4201
 ---
 spring:
   config:
