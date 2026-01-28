@@ -2,18 +2,10 @@ spring:
   application:
     name: users
     version: @project.version@
-  cloud:
-    discovery:
-      enabled: true
-      eureka:
-        instance:
-          hostname: localhost
-    client:
-      hostname: localhost
-    loadbalancer:
-      enabled: true
-      ribbon:
-        enabled: false
+  
+  # ==============================================================
+  # CORE CONFIGURATIONS (JPA, Jackson, Security, Flyway)
+  # ==============================================================
   jackson:
     time-zone: America/Sao_Paulo
   jpa:
@@ -24,35 +16,113 @@ spring:
           time_zone: America/Sao_Paulo
   security:
     enabled: true
+  flyway:
+    locations: classpath:db/migration
+    table: FLYWAY_SCHEMA_HISTORY
+    # Defaults for local/dev, overridden in prod
+    user: gl_user
+    password: gl_user
+
+  # ==============================================================
+  # FEATURE FLAGS & INTEGRATIONS (Default: Standalone/Disabled)
+  # ==============================================================
+  cloud:
+    discovery:
+      enabled: ${DISCOVERY_ENABLED:false}
+    loadbalancer:
+      enabled: ${LOADBALANCER_ENABLED:false}
+      ribbon:
+        enabled: false
+  
   feign:
     client:
-      enabled: false
-  eureka:
-    enabled: true
-  discovery:
-    client:
-      enabled: false
+      enabled: ${FEIGN_ENABLED:false}
+  
   cache:
-    type: redis
+    type: ${CACHE_TYPE:simple}
     redis:
       time-to-live: 3600s
+  
   redis:
-    enabled: false
-    host: redis
-    port: 6379
-    ssl:
-      enabled: false
+    enabled: ${REDIS_ENABLED:false}
+    host: ${REDIS_HOST:redis}
+    port: ${REDIS_PORT:6379}
     timeout: 5000
     jedis:
       pool:
         max-idle: 10
         min-idle: 1
         max-total: 20
-  flyway:
-    user: gl_user
-    password: gl_user
-    locations: classpath:db/migration
-    table: FLYWAY_SCHEMA_HISTORY
+
+# ==============================================================
+# EUREKA CLIENT CONFIGURATION
+# ==============================================================
+eureka:
+  client:
+    enabled: ${EUREKA_CLIENT_ENABLED:false}
+    service-url:
+      defaultZone: ${URL_DISCOVERY:http://localhost:8761/discovery/eureka}
+    fetch-registry: true
+    register-with-eureka: true
+  instance:
+    hostname: ${EUREKA_INSTANCE_HOSTNAME:localhost}
+    prefer-ip-address: false
+    instance-id: ${spring.application.name}:${server.port}
+
+# ==============================================================
+# SERVER & MANAGEMENT
+# ==============================================================
+server:
+  port: ${PORT:8197}
+  servlet:
+    context-path: /users
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  tracing:
+    enabled: true
+    exporter:
+      zipkin:
+        enabled: true
+        url: http://localhost:9411/api/v2/spans
+
+# ==============================================================
+# LOGGING & LOGSTASH
+# ==============================================================
+logstash:
+  destination: ${LOGSTASH_HOST:localhost}:${LOGSTASH_PORT:5000}
+
+logging:
+  level:
+    root: WARN
+    org.springframework: WARN
+    org.springframework.web: WARN
+    org.springframework.boot: WARN
+    org.springframework.security: WARN
+    org.hibernate: WARN
+    org.hibernate.SQL: OFF
+    com.glaiss: INFO
+
+# ==============================================================
+# SECURITY KEYS (OAUTH/JWT)
+# ==============================================================
+jwt:
+  public:
+    key: |
+      -----BEGIN PUBLIC KEY-----
+      MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxyxs9a0bpYdH9x2hfjNS
+      yNnz4FXmSpPz9CRLbtVlvghnZ4G9HB3Z++Z2HfpLIPahoCyp+Bi8b9gmDue3qRAn
+      cSNH16LCcNrOYFapz9MoW3U6ijOKZJsowdWDnHY8e3FjSBTw5s4X9c2wha2v9Erj
+      QNYdIIDXmqWoWm2206MsDzbwQ4bQo69/zMYU0xUmI0ZQViYVa6DVvXXZrYyyLNOv
+      JrSxF+Fs3fN3Mv6/rELmwrR9KJNL+NaKuQW7BDV8L0f5m6davtQwzSmwkR+BlT97
+      4wPPPdnZN+CzRW+7wAHTsMw1D8nEtL2bkHh1X82p+2nyMl+qQ/FtTaYEvbnazPGs
+      ewIDAQAB
+      -----END PUBLIC KEY-----
+  private:
+    key: ${JWT_PRIVATE_KEY:classpath:private.key}
 
 github:
   oauth:
@@ -68,71 +138,14 @@ google:
       secret: ${GOOGLE_CLIENT_SECRET:}
       redirect-uri: ${GOOGLE_CLIENT_REDIRECT_URI:}
 
-server:
-  port: 8197
-  servlet:
-    context-path: /users
-
-eureka:
-  client:
-    service-url:
-      defaultZone: ${URL_DISCOVERY:http://localhost:8761/discovery/eureka}
-    fetch-registry: true
-    register-with-eureka: true
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-
-  tracing:
-    enabled: true
-    exporter:
-      zipkin:
-        enabled: true
-        url: http://localhost:9411/api/v2/spans
-
-jwt:
-  public:
-    key: |
-      -----BEGIN PUBLIC KEY-----
-      MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxyxs9a0bpYdH9x2hfjNS
-      yNnz4FXmSpPz9CRLbtVlvghnZ4G9HB3Z++Z2HfpLIPahoCyp+Bi8b9gmDue3qRAn
-      cSNH16LCcNrOYFapz9MoW3U6ijOKZJsowdWDnHY8e3FjSBTw5s4X9c2wha2v9Erj
-      QNYdIIDXmqWoWm2206MsDzbwQ4bQo69/zMYU0xUmI0ZQViYVa6DVvXXZrYyyLNOv
-      JrSxF+Fs3fN3Mv6/rELmwrR9KJNL+NaKuQW7BDV8L0f5m6davtQwzSmwkR+BlT97
-      4wPPPdnZN+CzRW+7wAHTsMw1D8nEtL2bkHh1X82p+2nyMl+qQ/FtTaYEvbnazPGs
-      ewIDAQAB
-      -----END PUBLIC KEY-----
-  private:
-    key: classpath:private.key
-
-logstash:
-  destination: localhost:5000
-
-logging:
-  level:
-    root: WARN
-
-    # Spring
-    org.springframework: WARN
-    org.springframework.web: WARN
-    org.springframework.boot: WARN
-    org.springframework.security: WARN
-
-    # Hibernate / JPA
-    org.hibernate: WARN
-    org.hibernate.SQL: OFF
-    org.hibernate.type.descriptor.sql: OFF
-
-    # Infra
-    org.apache: WARN
-    reactor.netty: WARN
-
     com.glaiss: INFO
 
+
+servico-externos-permitidos: ${SERVICOS_EXTERNOS_PERMITIDOS:http://localhost:4200,http://localhost:4201}
 ---
+# ==============================================================
+# PROFILE: DEV
+# ==============================================================
 spring:
   config:
     activate:
@@ -144,6 +157,9 @@ spring:
     driver-class-name: org.postgresql.Driver
 
 ---
+# ==============================================================
+# PROFILE: PROD
+# ==============================================================
 spring:
   config:
     activate:
@@ -156,31 +172,3 @@ spring:
   flyway:
     user: ${USER_DB}
     password: ${PASSWORD_DB}
-  data:
-    redis:
-      host: ${REDIS_HOST}
-      port: ${REDIS_PORT}
-  cloud:
-    discovery:
-      eureka:
-        instance:
-          hostname: ${EUREKA_INSTANCE_HOSTNAME}
-    client:
-      hostname: ${EUREKA_INSTANCE_HOSTNAME}
-eureka:
-  client:
-    service-url:
-      defaultZone: ${URL_DISCOVERY}
-  instance:
-    hostname: ${EUREKA_INSTANCE_HOSTNAME}
-    non-secure-port: ${EUREKA_INSTANCE_NON_SECURE_PORT}
-    prefer-ip-address: false
-    instance-id: ${spring.application.name}:${server.port}
-server:
-  port: ${PORT}
-logstash:
-  destination: ${LOGSTASH}
-
-jwt:
-  private:
-    key: ${JWT-PRIVATE-KEY}
