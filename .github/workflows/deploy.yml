@@ -25,7 +25,6 @@ jobs:
     with:
       cluster_name: app-cluster
       service_name: app-serviceapp-service
-      needs_private_key: true
     secrets: inherit
 
   increment-version:
