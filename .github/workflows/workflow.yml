@@ -8,6 +8,8 @@ on:
 jobs:
   call-reusable-workflow:
     uses: GustavoAca/infra-aws-free-tier/.github/workflows/service-workflow.yml@main
+    with:
+      needs_private_key: true
     secrets:
       USERNAME: ${{ secrets.USERNAME }}
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

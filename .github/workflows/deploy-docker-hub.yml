@@ -8,4 +8,5 @@ jobs:
     uses: GustavoAca/infra-aws-free-tier/.github/workflows/service-deploy.yml@main
     with:
       image_name: user-service
+      needs_private_key: true
     secrets: inherit

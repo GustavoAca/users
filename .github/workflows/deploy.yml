@@ -8,12 +8,15 @@ jobs:
   build:
     uses: GustavoAca/infra-aws-free-tier/.github/workflows/service-workflow.yml@main
     secrets: inherit
+    with:
+      needs_private_key: true
 
   push-to-ecr:
     needs: build
     uses: GustavoAca/infra-aws-free-tier/.github/workflows/ecr-push.yml@main
     with:
       image_name: user-service
+      needs_private_key: true
     secrets: inherit
 
   push-to-ec2:
@@ -22,6 +25,7 @@ jobs:
     with:
       cluster_name: app-cluster
       service_name: app-serviceapp-service
+      needs_private_key: true
     secrets: inherit
 
   increment-version:
