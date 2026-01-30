@@ -2,7 +2,7 @@ spring:
   application:
     name: users
     version: @project.version@
-  
+
   # ==============================================================
   # CORE CONFIGURATIONS (JPA, Jackson, Security, Flyway)
   # ==============================================================
@@ -36,16 +36,16 @@ spring:
       enabled: ${LOADBALANCER_ENABLED:false}
       ribbon:
         enabled: false
-  
+
   feign:
     client:
       enabled: ${FEIGN_ENABLED:false}
-  
+
   cache:
     type: ${CACHE_TYPE:simple}
     redis:
       time-to-live: 3600s
-  
+
   redis:
     enabled: ${REDIS_ENABLED:false}
     host: ${REDIS_HOST:redis}
