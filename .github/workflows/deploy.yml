@@ -5,14 +5,26 @@ on:
     branches: [ "main" ]
 
 jobs:
-  call-reusable-deploy:
-    uses: GustavoAca/core/.github/workflows/reusable-service-deploy.yml@main
+  build:
+    uses: GustavoAca/infra-aws-free-tier/.github/workflows/service-workflow.yml@main
+    secrets: inherit
+
+  push-to-ecr:
+    needs: build
+    uses: GustavoAca/infra-aws-free-tier/.github/workflows/ecr-push.yml@main
     with:
-      image_name: users
-      needs_private_key: true
-    secrets:
-      USERNAME: ${{ secrets.USERNAME }}
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
-      DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
-      JWT_PRIVATE_KEY: ${{ secrets.JWT_PRIVATE_KEY }}
+      image_name: user-service
+    secrets: inherit
+
+  push-to-ec2:
+    needs: push-to-ecr
+    uses: GustavoAca/infra-aws-free-tier/.github/workflows/ecs-deploy.yml@main
+    with:
+      cluster_name: app-cluster
+      service_name: app-serviceapp-service
+    secrets: inherit
+
+  increment-version:
+    needs: push-to-ec2
+    uses: GustavoAca/infra-aws-free-tier/.github/workflows/increment-version.yml@main
+    secrets: inherit
