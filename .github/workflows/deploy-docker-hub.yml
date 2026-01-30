@@ -1,0 +1,11 @@
+name: Deploy-docker-hub
+
+on:
+  push:
+    branches: [ "docker" ]
+jobs:
+  deploy-docker-hub:
+    uses: GustavoAca/infra-aws-free-tier/.github/workflows/service-deploy.yml@main
+    with:
+      image_name: user-service
+    secrets: inherit

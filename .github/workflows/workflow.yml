@@ -6,31 +6,8 @@ on:
       - 'G*'
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Configurar chave privada
-        run: echo "${{ secrets.JWT_PRIVATE_KEY }}" > src/main/resources/private.key
-
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'adopt'
-          java-version: '17'
-
-      - name: Configurar Maven
-        run: |
-          mkdir -p ~/.m2
-          echo "<settings><servers><server><id>github</id><username>${{ secrets.USERNAME }}</username><password>${{ secrets.GITHUB_TOKEN }}</password></server></servers></settings>" > ~/.m2/settings.xml
-
-      - name: Build project
-        run: mvn -B clean compile
-
-      - name: Verificar dependências
-        run: mvn dependency:resolve
-
-      - name: testes
-        run: mvn -B clean test
+  call-reusable-workflow:
+    uses: GustavoAca/infra-aws-free-tier/.github/workflows/service-workflow.yml@main
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
