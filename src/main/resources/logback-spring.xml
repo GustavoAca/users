@@ -3,51 +3,31 @@
     <!-- Timezone -->
     <timestamp key="ts" datePattern="yyyy-MM-dd'T'HH:mm:ss.SSSXXX"/>
 
-    <!-- Properties -->
-    <property name="CONSOLE_PATTERN"
-              value="%d{yyyy-MM-dd HH:mm:ss.SSS, America/Sao_Paulo} [%thread] %-5level %logger{36} [%X{traceId:-}] %X{http.method:-} %X{http.path:-} - %msg%n"/>
-
-    <springProperty scope="context"
-                    name="LOGSTASH_DESTINATION"
-                    source="logstash.destination"
-                    defaultValue="localhost:5000"/>
-
     <!-- ===================== -->
-    <!-- CONSOLE (LOCAL / K8s) -->
+    <!-- CONSOLE (JSON) -->
     <!-- ===================== -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>${CONSOLE_PATTERN}</pattern>
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp>
+                    <timeZone>America/Sao_Paulo</timeZone>
+                </timestamp>
+                <logLevel />
+                <loggerName />
+                <threadName />
+                <message />
+                <mdc />
+                <stackTrace />
+
+                <globalCustomFields>
+                    {
+                    "service.name":"users-service",
+                    "environment":"${spring.profiles.active:-local}"
+                    }
+                </globalCustomFields>
+            </providers>
         </encoder>
     </appender>
-
-    <!-- ===================== -->
-    <!-- LOGSTASH (ELK) -->
-    <!-- ===================== -->
-    <springProfile name="logstash">
-        <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-            <destination>${LOGSTASH_DESTINATION}</destination>
-
-            <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
-                <providers>
-                    <timestamp />
-                    <logLevel />
-                    <loggerName />
-                    <threadName />
-                    <message />
-                    <mdc />
-                    <stackTrace />
-
-                    <globalCustomFields>
-                        {
-                        "service.name":"users-service",
-                        "environment":"${spring.profiles.active:-local}"
-                        }
-                    </globalCustomFields>
-                </providers>
-            </encoder>
-        </appender>
-    </springProfile>
 
     <!-- ===================== -->
     <!-- LOGGERS -->
@@ -65,17 +45,8 @@
     <!-- ===================== -->
     <!-- ROOT -->
     <!-- ===================== -->
-    <springProfile name="!logstash">
-        <root level="INFO">
-            <appender-ref ref="CONSOLE"/>
-        </root>
-    </springProfile>
-
-    <springProfile name="logstash">
-        <root level="WARN">
-            <appender-ref ref="CONSOLE"/>
-            <appender-ref ref="LOGSTASH"/>
-        </root>
-    </springProfile>
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
 
 </configuration>
