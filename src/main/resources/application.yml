@@ -81,6 +81,9 @@ server:
     context-path: /users
 
 management:
+  health:
+    redis:
+      enabled: false
   endpoints:
     web:
       exposure:
