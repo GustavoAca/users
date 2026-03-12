@@ -1,185 +1,98 @@
-spring:
-  application:
-    name: users
-    version: @project.version@
-
-  # ==============================================================
-  # CORE CONFIGURATIONS (JPA, Jackson, Security, Flyway)
-  # ==============================================================
-  jackson:
-    time-zone: America/Sao_Paulo
-  jpa:
-    enabled: true
-    properties:
-      hibernate:
-        default_schema: gl_user
-        jdbc:
-          time_zone: America/Sao_Paulo
-  security:
-    enabled: true
-  flyway:
-    locations: classpath:db/migration
-    table: FLYWAY_SCHEMA_HISTORY
-    # Defaults for local/dev, overridden in prod
-    user: gl_user
-    password: gl_user
-    schemas: gl_user
-    url: jdbc:postgresql://localhost:5432/glaiss?currentSchema=gl_user&TimeZone=America/Sao_Paulo
-
-  # ==============================================================
-  # FEATURE FLAGS & INTEGRATIONS (Default: Standalone/Disabled)
-  # ==============================================================
-  cloud:
-    discovery:
-      enabled: ${DISCOVERY_ENABLED:false}
-    loadbalancer:
-      enabled: ${LOADBALANCER_ENABLED:false}
-      ribbon:
-        enabled: false
-
-  feign:
-    client:
-      enabled: ${FEIGN_ENABLED:false}
-
-  cache:
-    type: ${CACHE_TYPE:simple}
-    redis:
-      time-to-live: 3600s
-
-  redis:
-    enabled: ${REDIS_ENABLED:false}
-    host: ${REDIS_HOST:redis}
-    port: ${REDIS_PORT:6379}
-    timeout: 5000
-    jedis:
-      pool:
-        max-idle: 10
-        min-idle: 1
-        max-total: 20
-
-# ==============================================================
-# EUREKA CLIENT CONFIGURATION
-# ==============================================================
-eureka:
-  client:
-    enabled: ${EUREKA_CLIENT_ENABLED:false}
-    service-url:
-      defaultZone: ${URL_DISCOVERY:http://localhost:8761/discovery/eureka}
-    fetch-registry: true
-    register-with-eureka: true
-  instance:
-    hostname: ${EUREKA_INSTANCE_HOSTNAME:localhost}
-    prefer-ip-address: false
-    instance-id: ${spring.application.name}:${server.port}
-
-# ==============================================================
-# SERVER & MANAGEMENT
-# ==============================================================
 server:
   port: ${PORT:8197}
   servlet:
     context-path: /users
 
-management:
-  health:
-    redis:
+spring:
+  application:
+    name: users
+  profiles:
+    active: dev
+
+  # Configurações de Banco de Dados e JPA (Suportado pelo core-jpa)
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/glaiss?currentSchema=gl_user&TimeZone=America/Sao_Paulo}
+    username: ${USER_DB:gl_user_app}
+    password: ${PASSWORD_DB:gl_user}
+    driver-class-name: org.postgresql.Driver
+  
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        default_schema: gl_user
+        jdbc:
+          time_zone: America/Sao_Paulo
+        format_sql: true
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    schemas: gl_user
+    user: ${USER_DB_FLYWAY:gl_user}
+    password: ${PASSWORD_DB_FLYWAY:gl_user}
+
+  # Configurações de Serialização (Suportado pelo core-common)
+  jackson:
+    date-format: yyyy-MM-dd'T'HH:mm:ss
+    time-zone: America/Sao_Paulo
+    deserialization:
+      fail-on-unknown-properties: false
+
+  # Desabilitar Feign e integrações não utilizadas (conforme core-security/cloud)
+  feign:
+    client:
       enabled: false
+
+  # Integrações Cloud
+  cloud:
+    discovery:
+      enabled: ${DISCOVERY_ENABLED:true}
+    loadbalancer:
+      enabled: true
+
+# Configurações de Segurança (Suportado pelo core-security)
+security:
+  jwt:
+    issuer: glaiss-auth
+    expiration-minutes: 60
+    public-key: ${JWT_PUBLIC_KEY}
+    private-key: ${JWT_PRIVATE_KEY}
+
+# Eureka Client
+eureka:
+  client:
+    service-url:
+      defaultZone: ${URL_DISCOVERY:http://localhost:8761/discovery/eureka}
+    register-with-eureka: ${EUREKA_REGISTER:true}
+  instance:
+    instance-id: ${spring.application.name}:${server.port}
+    prefer-ip-address: true
+
+# Observabilidade e Actuator
+management:
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: health,info,metrics,prometheus,tracing
   tracing:
-    enabled: true
-    exporter:
-      zipkin:
-        enabled: true
-        url: http://localhost:9411/api/v2/spans
-
-# ==============================================================
-# LOGGING & LOGSTASH
-# ==============================================================
-logstash:
-  destination: ${LOGSTASH_HOST:localhost}:${LOGSTASH_PORT:5000}
+    sampling:
+      probability: 1.0
+  zipkin:
+    tracing:
+      endpoint: ${ZIPKIN_URL:http://localhost:9411/api/v2/spans}
 
 logging:
   level:
-    root: WARN
-    org.springframework: WARN
-    org.springframework.web: WARN
-    org.springframework.boot: WARN
-    org.springframework.security: WARN
-    org.hibernate: WARN
-    org.hibernate.SQL: OFF
-    com.glaiss: INFO
+    root: INFO
+    com.glaiss: DEBUG
+    org.springframework.security: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} [traceId=%X{traceId:-}, spanId=%X{spanId:-}] - %msg%n"
 
-# ==============================================================
-# SECURITY KEYS (OAUTH/JWT)
-# ==============================================================
-jwt:
-  public:
-    key: |
-      -----BEGIN PUBLIC KEY-----
-      MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxyxs9a0bpYdH9x2hfjNS
-      yNnz4FXmSpPz9CRLbtVlvghnZ4G9HB3Z++Z2HfpLIPahoCyp+Bi8b9gmDue3qRAn
-      cSNH16LCcNrOYFapz9MoW3U6ijOKZJsowdWDnHY8e3FjSBTw5s4X9c2wha2v9Erj
-      QNYdIIDXmqWoWm2206MsDzbwQ4bQo69/zMYU0xUmI0ZQViYVa6DVvXXZrYyyLNOv
-      JrSxF+Fs3fN3Mv6/rELmwrR9KJNL+NaKuQW7BDV8L0f5m6davtQwzSmwkR+BlT97
-      4wPPPdnZN+CzRW+7wAHTsMw1D8nEtL2bkHh1X82p+2nyMl+qQ/FtTaYEvbnazPGs
-      ewIDAQAB
-      -----END PUBLIC KEY-----
-  private:
-    key: ${JWT_PRIVATE_KEY:classpath:private.key}
-
-github:
-  oauth:
-    client:
-      id: ${GITHUB_CLIENT_ID:}
-      secret: ${GITHUB_CLIENT_SECRET:}
-      redirect-uri: ${GITHUB_CLIENT_REDIRECT_URI:}
-
-google:
-  oauth:
-    client:
-      id: ${GOOGLE_CLIENT_ID:}
-      secret: ${GOOGLE_CLIENT_SECRET:}
-      redirect-uri: ${GOOGLE_CLIENT_REDIRECT_URI:}
-
-    com.glaiss: INFO
-
-
-servico-externos-permitidos: ${SERVICOS_EXTERNOS_PERMITIDOS:http://localhost:4200,http://localhost:4201}
----
-# ==============================================================
-# PROFILE: DEV
-# ==============================================================
-spring:
-  config:
-    activate:
-      on-profile: dev
-  datasource:
-    url: jdbc:postgresql://localhost:5432/glaiss?currentSchema=gl_user&TimeZone=America/Sao_Paulo
-    username: gl_user_app
-    password: gl_user
-    driver-class-name: org.postgresql.Driver
-
----
-# ==============================================================
-# PROFILE: PROD
-# ==============================================================
-spring:
-  config:
-    activate:
-      on-profile: prod
-  datasource:
-    url: ${DB_URL}
-    username: ${USER_DB}
-    password: ${PASSWORD_DB}
-    driver-class-name: org.postgresql.Driver
-  flyway:
-    user: ${USER_DB_FLYWAY}
-    password: ${PASSWORD_DB_FLYWAY}
-    url: ${DB_URL}
-
-jwt:
-  public:
-    key: ${PUBLIC_KEY}
+# Configurações Específicas da Aplicação
+app:
+  cors:
+    allowed-origins: ${ALLOWED_ORIGINS:http://localhost:4200,http://localhost:4201}

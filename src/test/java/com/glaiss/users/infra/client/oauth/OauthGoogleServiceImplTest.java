@@ -23,7 +23,7 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class OauthGoogleServiceImplTest extends UsersApplicationTest {
+class OauthGoogleServiceImplTest {
 
     private RestTemplate restTemplate;
     private UsuarioComponent usuarioComponent;

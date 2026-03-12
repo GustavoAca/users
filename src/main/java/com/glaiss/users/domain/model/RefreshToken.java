@@ -15,7 +15,6 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@SuperBuilder
 @Table(name = "refresh_tokens")
 @Entity
 public class RefreshToken extends EntityAbstract {

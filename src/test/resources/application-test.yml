@@ -1,48 +1,84 @@
+server:
+  port: 0
+
 spring:
-  cloud:
-    loadbalancer:
-      enabled: false
+  application:
+    name: users-test
+  
+  profiles:
+    active: test
+
+  # Banco de Dados em Memória para Testes
   datasource:
     url: jdbc:h2:mem:testedb;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE
     driver-class-name: org.h2.Driver
     username: sa
     password:
-  jpa:
-    show-sql: true
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-    hibernate:
-      ddl-auto: update
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
 
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+
+  # Desabilitar Flyway nos testes de contexto simples para evitar problemas de caminho
   flyway:
-    url: jdbc:h2:mem:testedb;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE
-    locations: filesystem:../users/src/main/resources/db/migration/comum
-    user: sa
-    password:
-  security:
-    oauth2:
-      enabled: false
     enabled: false
+
+  # Desabilitar integrações cloud e segurança para testes unitários de contexto
+  cloud:
+    discovery:
+      enabled: false
+    loadbalancer:
+      enabled: false
+
+  # Configurações de Segurança do Core
+  feign:
+    client:
+      enabled: false
+
+# Configurações de Segurança Mockadas para o contexto carregar
+security:
+  enabled: false
+  jwt:
+    issuer: test-issuer
+    expiration-minutes: 60
+    public-key: |
+      -----BEGIN PUBLIC KEY-----
+      MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxyxs9a0bpYdH9x2hfjNS
+      yNnz4FXmSpPz9CRLbtVlvghnZ4G9HB3Z++Z2HfpLIPahoCyp+Bi8b9gmDue3qRAn
+      cSNH16LCcNrOYFapz9MoW3U6ijOKZJsowdWDnHY8e3FjSBTw5s4X9c2wha2v9Erj
+      QNYdIIDXmqWoWm2206MsDzbwQ4bQo69/zMYU0xUmI0ZQViYVa6DVvXXZrYyyLNOv
+      JrSxF+Fs3fN3Mv6/rELmwrR9KJNL+NaKuQW7BDV8L0f5m6davtQwzSmwkR+BlT97
+      4wPPPdnZN+CzRW+7wAHTsMw1D8nEtL2bkHh1X82p+2nyMl+qQ/FtTaYEvbnazPGs
+      ewIDAQAB
+      -----END PUBLIC KEY-----
 
 eureka:
   client:
     enabled: false
-    register-with-eureka: false
-    fetch-registry: false
 
 management:
-  endpoints:
-    enabled-by-default: false
   tracing:
     enabled: false
   metrics:
-    enabled: false
+    export:
+      prometheus:
+        enabled: false
 
-logging:
-  level:
-    root: DEBUG
-  logstash:
-    enabled: false
+# Propriedades específicas usadas em OauthGoogleServiceImpl
+google:
+  oauth:
+    client:
+      id: test-id
+      secret: test-secret
+      redirect-uri: http://localhost:8197/callback
+
+github:
+  oauth:
+    client:
+      id: test-id
+      secret: test-secret
+      redirect-uri: http://localhost:8197/callback

@@ -1,10 +1,10 @@
 <configuration scan="true">
 
-    <!-- Timezone -->
-    <timestamp key="ts" datePattern="yyyy-MM-dd'T'HH:mm:ss.SSSXXX"/>
+    <springProperty scope="context" name="appName" source="spring.application.name" defaultValue="unknown-service"/>
+    <springProperty scope="context" name="profile" source="spring.profiles.active" defaultValue="local"/>
 
     <!-- ===================== -->
-    <!-- CONSOLE (JSON) -->
+    <!-- CONSOLE (JSON for CloudWatch) -->
     <!-- ===================== -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
@@ -16,13 +16,15 @@
                 <loggerName />
                 <threadName />
                 <message />
-                <mdc />
+                <!-- MDC contains TraceId, SpanId (from Micrometer Tracing) -->
+                <mdc /> 
                 <stackTrace />
+                <arguments />
 
                 <globalCustomFields>
                     {
-                    "service.name":"users-service",
-                    "environment":"${spring.profiles.active:-local}"
+                    "service.name":"${appName}",
+                    "environment":"${profile}"
                     }
                 </globalCustomFields>
             </providers>
@@ -32,14 +34,8 @@
     <!-- ===================== -->
     <!-- LOGGERS -->
     <!-- ===================== -->
-
-    <!-- Frameworks -->
     <logger name="org.springframework" level="WARN"/>
     <logger name="org.hibernate" level="WARN"/>
-    <logger name="org.apache" level="WARN"/>
-    <logger name="reactor.netty" level="WARN"/>
-
-    <!-- Aplicação -->
     <logger name="com.glaiss" level="INFO"/>
 
     <!-- ===================== -->

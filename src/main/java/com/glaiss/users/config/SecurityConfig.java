@@ -65,7 +65,7 @@ public class SecurityConfig {
                 .addFilterBefore(filtroTokenAcesso, UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer(oauth2 -> oauth2
-                        .jwt(jwt -> jwt.jwtAuthenticationConverter(JwtAuthentication.converter()))
+                        .jwt(jwt -> jwt.jwtAuthenticationConverter(new JwtAuthentication().jwtAuthenticationConverter()))
                 );
 
         return http.build();

@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class TokenServiceTest extends UsersApplicationTest {
+class TokenServiceTest {
 
 
     private JwtEncoder jwtEncoder;

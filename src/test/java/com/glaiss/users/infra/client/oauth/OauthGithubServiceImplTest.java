@@ -21,7 +21,7 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class OauthGithubServiceImplTest extends UsersApplicationTest {
+class OauthGithubServiceImplTest {
 
     private RestTemplate restTemplate;
     private UsuarioComponent usuarioComponent;

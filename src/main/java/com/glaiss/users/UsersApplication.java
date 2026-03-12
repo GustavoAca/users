@@ -9,8 +9,6 @@ import org.springframework.context.annotation.ComponentScan;
 import java.util.TimeZone;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.glaiss.core", "com.glaiss.users"})
-@EntityScan(basePackages = "com.glaiss.users.domain.model")
 public class UsersApplication {
 
 	public static void main(String[] args) {
