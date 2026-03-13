@@ -6,6 +6,7 @@ server:
 spring:
   application:
     name: users
+    version: @project.version@
   profiles:
     active: dev
 
@@ -33,6 +34,7 @@ spring:
     schemas: gl_user
     user: ${USER_DB_FLYWAY:gl_user}
     password: ${PASSWORD_DB_FLYWAY:gl_user}
+    baseline-on-migrate: true
 
   # Configurações de Serialização (Suportado pelo core-common)
   jackson:
@@ -58,12 +60,43 @@ security:
   jwt:
     issuer: glaiss-auth
     expiration-minutes: 60
-    public-key: ${JWT_PUBLIC_KEY}
-    private-key: ${JWT_PRIVATE_KEY}
+
+jwt:
+  public:
+    key: |
+      -----BEGIN PUBLIC KEY-----
+      MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxyxs9a0bpYdH9x2hfjNS
+      yNnz4FXmSpPz9CRLbtVlvghnZ4G9HB3Z++Z2HfpLIPahoCyp+Bi8b9gmDue3qRAn
+      cSNH16LCcNrOYFapz9MoW3U6ijOKZJsowdWDnHY8e3FjSBTw5s4X9c2wha2v9Erj
+      QNYdIIDXmqWoWm2206MsDzbwQ4bQo69/zMYU0xUmI0ZQViYVa6DVvXXZrYyyLNOv
+      JrSxF+Fs3fN3Mv6/rELmwrR9KJNL+NaKuQW7BDV8L0f5m6davtQwzSmwkR+BlT97
+      4wPPPdnZN+CzRW+7wAHTsMw1D8nEtL2bkHh1X82p+2nyMl+qQ/FtTaYEvbnazPGs
+      ewIDAQAB
+      -----END PUBLIC KEY-----
+  private:
+    key: ${JWT_PRIVATE_KEY:classpath:private.key}
+
+github:
+  oauth:
+    client:
+      id: ${GITHUB_CLIENT_ID:}
+      secret: ${GITHUB_CLIENT_SECRET:}
+      redirect-uri: ${GITHUB_CLIENT_REDIRECT_URI:}
+
+google:
+  oauth:
+    client:
+      id: ${GOOGLE_CLIENT_ID:}
+      secret: ${GOOGLE_CLIENT_SECRET:}
+      redirect-uri: ${GOOGLE_CLIENT_REDIRECT_URI:}
+
+# Configurações Específicas da Aplicação
+servico-externos-permitidos: ${ALLOWED_ORIGINS:http://localhost:4200,http://localhost:4201}
 
 # Eureka Client
 eureka:
   client:
+    enabled: ${DISCOVERY_ENABLED:true}
     service-url:
       defaultZone: ${URL_DISCOVERY:http://localhost:8761/discovery/eureka}
     register-with-eureka: ${EUREKA_REGISTER:true}
@@ -92,7 +125,6 @@ logging:
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} [traceId=%X{traceId:-}, spanId=%X{spanId:-}] - %msg%n"
 
-# Configurações Específicas da Aplicação
 app:
   cors:
     allowed-origins: ${ALLOWED_ORIGINS:http://localhost:4200,http://localhost:4201}

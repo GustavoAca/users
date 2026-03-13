@@ -9,6 +9,9 @@ import org.springframework.context.annotation.ComponentScan;
 import java.util.TimeZone;
 
 @SpringBootApplication
+@ComponentScan(basePackages = "com.glaiss")
+@EntityScan(basePackages = "com.glaiss")
+@org.springframework.data.jpa.repository.config.EnableJpaRepositories(basePackages = "com.glaiss")
 public class UsersApplication {
 
 	public static void main(String[] args) {
