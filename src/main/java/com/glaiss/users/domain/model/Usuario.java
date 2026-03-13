@@ -18,6 +18,7 @@ public class Usuario extends EntityAbstract {
     private UUID id;
     private String username;
     private String nome;
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private String password;
 
     @Enumerated(EnumType.STRING)

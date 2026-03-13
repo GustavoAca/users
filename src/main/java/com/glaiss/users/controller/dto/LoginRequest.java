@@ -1,7 +1,6 @@
 package com.glaiss.users.controller.dto;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 
-public record LoginRequest(@Valid @NotNull String username, @Valid @NotNull String password) {
+public record LoginRequest(@NotBlank String username, @NotBlank String password) {
 }

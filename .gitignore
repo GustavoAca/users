@@ -1,6 +1,9 @@
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
+private.key
+**/*.log
+**/*.temp
 !**/src/main/**/target/
 !**/src/test/**/target/
 

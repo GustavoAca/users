@@ -57,17 +57,18 @@ public class UsuarioComponent {
     }
 
     public Boolean alterarSenha(AlterarUserDto alterarUserDto) {
-        try {
-            if (!Objects.equals(SecurityContextUtils.getUsername(), alterarUserDto.username())) {
-                return Boolean.FALSE;
-            }
-            Usuario user = buscarUsuario(alterarUserDto.username());
-            user.setPassword(bCryptPasswordEncoder.encode(alterarUserDto.senha()));
-            usuarioService.salvar(user);
-            return Boolean.TRUE;
-        } catch (Exception e) {
+        if (!Objects.equals(SecurityContextUtils.getUsername(), alterarUserDto.username())) {
             return Boolean.FALSE;
         }
+        Usuario user = buscarUsuario(alterarUserDto.username());
+        
+        if (!bCryptPasswordEncoder.matches(alterarUserDto.senhaAntiga(), user.getPassword())) {
+            throw new CredencialException();
+        }
+        
+        user.setPassword(bCryptPasswordEncoder.encode(alterarUserDto.senha()));
+        usuarioService.salvar(user);
+        return Boolean.TRUE;
     }
 
     public Usuario buscarUsuario(String username) {

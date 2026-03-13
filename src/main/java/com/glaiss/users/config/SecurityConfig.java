@@ -52,6 +52,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/actuator/info").permitAll()
                         .requestMatchers("/actuator/health").permitAll()
+                        .requestMatchers("/actuator/**").hasAuthority(Privilegio.ROLE_ADMIN.name())
                         .requestMatchers("/oauth/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/usuarios/cadastrar").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/usuarios/**").hasAuthority(Privilegio.ROLE_ADMIN.name())
@@ -102,7 +103,9 @@ public class SecurityConfig {
             String[] servicosLista = this.servicosExternos.split(",");
             config.setAllowedOrigins(List.of(servicosLista));
         } else {
-            config.setAllowedOrigins(List.of("*"));
+            // Em vez de *, permitimos uma lista vazia ou específica para evitar falhas de segurança em produção
+            config.setAllowedOrigins(List.of()); 
+            log.warn("CORS: Nenhuma origem permitida configurada. Fallback para lista vazia.");
         }
         
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "PATCH"));
