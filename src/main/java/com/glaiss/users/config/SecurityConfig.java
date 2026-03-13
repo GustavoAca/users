@@ -41,6 +41,12 @@ public class SecurityConfig {
     @Value("${jwt.private.key}")
     private RSAPrivateKey privateKey;
 
+    @Value("${servico-externos-permitidos}")
+    private String servicosExternos;
+
+    @Value("${eureka.client.enabled}")
+    private boolean isGatewayActive;
+
     private final FiltroTokenAcesso filtroTokenAcesso;
 
     public SecurityConfig(FiltroTokenAcesso filtroTokenAcesso) {
@@ -88,12 +94,6 @@ public class SecurityConfig {
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-    @Value("${servico-externos-permitidos}")
-    private String servicosExternos;
-
-    @Value("${eureka.client.enabled}")
-    private boolean isGatewayActive;
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
